@@ -7,6 +7,7 @@ from pydantic import AnyUrl
 
 from .eka_mcp import EkaMCP
 from .models import MedicationUnderstanding, MedicationInteraction, QueryProtocols, ProtocolPublisher
+from .utils import download_image
 
 
 def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
@@ -235,10 +236,16 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
 
     async def _handle_search_protocols(arguments):
         protocols = eka_mcp.get_protocols(arguments)
-        return [
-            types.TextContent(type="text", text=json.dumps(protocol))
-            for protocol in protocols
-        ]
+        output = []
+        for protocol in protocols:
+            logger.info(f"Protocol: {protocol}")
+            url = protocol.get("url")
+            try:
+                data = download_image(url)
+                output.append(types.ImageContent(type="image", data=data, mimeType="image/jpeg"))
+            except Exception as err:
+                logger.error(f"Failed to download protocol url: {protocol.get('url')}, with error: {err}")
+        return output
 
     async def _handle_protocol_publishers(arguments):
         publishers = eka_mcp.get_protocol_publisher(arguments)

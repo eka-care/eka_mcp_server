@@ -126,6 +126,10 @@ class EkaMCP:
         supported_tags = []
         for tag in tags:
             # Fixed the method call order: strip() then lower()
-            text = tag.get("text", "").strip().lower()
+            text = tag.get("text", "")
+            if not text:
+                continue
             supported_tags.append(text)
+
+        self.logger.info(f"Available conditions/tags: {supported_tags}")
         return supported_tags
