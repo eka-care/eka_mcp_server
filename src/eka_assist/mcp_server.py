@@ -1,29 +1,19 @@
 import json
-import logging
+from logging import Logger
 
 import mcp.types as types
+from mcp.server import Server
 from pydantic import AnyUrl
-
-from mcp.server.models import InitializationOptions
-from mcp.server import NotificationOptions, Server
 
 from .eka_mcp import EkaMCP
 from .models import MedicationUnderstanding, MedicationInteraction, QueryProtocols, ProtocolPublisher
 
 
-def initialize_mcp_server(eka_mcp: EkaMCP, logger):
+def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
     # Store notes as a simple key-value dict to demonstrate state management
 
     notes: dict[str, str] = {}
     server = Server("eka-assist")
-    init_options = InitializationOptions(
-        server_name="eka-assist",
-        server_version="0.1.0",
-        capabilities=server.get_capabilities(
-            notification_options=NotificationOptions(),
-            experimental_capabilities={},
-        ),
-    )
 
     @server.list_resources()
     async def handle_list_resources() -> list[types.Resource]:
@@ -254,4 +244,4 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger):
         publishers = eka_mcp.get_protocol_publisher(arguments)
         return [types.TextContent(type="text", text=json.dumps(publishers))]
 
-    return server, init_options
+    return server

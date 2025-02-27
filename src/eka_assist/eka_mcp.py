@@ -1,11 +1,11 @@
-import httpx
-import logging
-from typing import Dict, List, Any, Optional
+from logging import Logger
+from typing import Dict, Any, Optional
 
-logger = logging.getLogger(__name__)
+import httpx
+
 
 class EkaMCP:
-    def __init__(self, api_url: str, api_token: str, logger, pool_limits: Optional[Dict[str, int]] = None):
+    def __init__(self, api_url: str, api_token: str, logger: Logger, pool_limits: Optional[Dict[str, int]] = None):
         """
         Initialize the EkaAssist client with connection pooling.
 
@@ -13,6 +13,7 @@ class EkaMCP:
             api_url: Base URL for the API
             api_token: API token for authentication
             pool_limits: Optional dict with pool configuration (max_connections, max_keepalive_connections)
+            logger: Logger to log information
         """
         self.logger = logger
         self.api_url = api_url
