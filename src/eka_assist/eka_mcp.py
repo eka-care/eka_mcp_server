@@ -112,7 +112,7 @@ class EkaMCP:
 
     def get_drug_interactions(self, arguments: Dict[str, Any]):
         """Gets a list of all drugs that interact with each other from the API."""
-        return self._make_request("get", "/medications/v1/interaction", params=arguments)
+        return self._make_request("post", "/medications/v1/interaction", json=arguments)
 
     def get_supported_tags(self):
         """

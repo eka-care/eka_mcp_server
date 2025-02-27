@@ -230,8 +230,7 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
         return [types.TextContent(type="text", text=json.dumps(drugs))]
 
     async def _handle_medication_interaction(arguments):
-        drug_names = arguments.get('drug_names')
-        interactions = eka_mcp.get_drug_interactions(drug_names)
+        interactions = eka_mcp.get_drug_interactions(arguments)
         return [types.TextContent(type="text", text=json.dumps(interactions))]
 
     async def _handle_search_protocols(arguments):
