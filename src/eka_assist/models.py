@@ -10,12 +10,12 @@ class MedicationUnderstanding(BaseModel):
     form: Optional[str] = Field(
         None, description="The form of the medicine like Tablet, Syrup"
     )
-    generic_names: Optional[List[str]] = Field(
-        None, description="The generic name of the medicine like ['Glimeperide', 'Metformin']. "
+    generic_names: Optional[str] = Field(
+        None, description="The generic name of the medicine like 'Glimeperide', 'Metformin'. "
                           "In case of compound generics, pass the name only with comma separated like Glimeperide,Metformin"
     )
-    volumes: Optional[List[str]] = Field(
-        None, description="The volume of the drug name or generic composition like ['650','1000','500']"
+    volumes: Optional[str] = Field(
+        None, description="The volume of the drug name or generic composition like '650','1000','500'"
     )
 
 
