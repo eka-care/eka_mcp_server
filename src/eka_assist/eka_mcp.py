@@ -82,14 +82,14 @@ class EkaMCP:
             response.raise_for_status()
             return response.json()
         except httpx.HTTPStatusError as e:
-            logger.error(f"API request failed: {e}")
+            self.logger.error(f"API request failed: {e}")
             raise
         except Exception as e:
-            logger.error(f"Unexpected error during API request: {e}")
+            self.logger.error(f"Unexpected error during API request: {e}")
             raise
 
     # Protocol endpoints
-    def get_all_supported_conditions(self):
+    def get_all_supported_tags(self):
         """Gets a list of supported medical conditions from the API."""
         return self._make_request("get", "/protocols/v1/tags")
 
@@ -114,18 +114,18 @@ class EkaMCP:
         """Gets a list of all drugs that interact with each other from the API."""
         return self._make_request("get", "/medications/v1/interaction", params=arguments)
 
-    def get_supported_conditions(self):
+    def get_supported_tags(self):
         """
-        Gets a list of supported condition names in lowercase.
+        Gets a list of supported tags/condition names in lowercase.
 
         Returns:
-            List of condition names as strings
+            List of tags/condition names as strings
         """
-        conditions = self.get_all_supported_conditions()
+        tags = self.get_all_supported_tags()
 
-        supported_conditions = []
-        for condition in conditions:
+        supported_tags = []
+        for tag in tags:
             # Fixed the method call order: strip() then lower()
-            text = condition.get("text", "").strip().lower()
-            supported_conditions.append(text)
-        return supported_conditions
+            text = tag.get("text", "").strip().lower()
+            supported_tags.append(text)
+        return supported_tags

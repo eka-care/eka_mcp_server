@@ -105,7 +105,7 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
         Each tool specifies its arguments using JSON Schema validation.
         """
         logger.info("Listing tools now")
-        conditions = eka_mcp.get_supported_conditions()
+        tags = eka_mcp.get_supported_tags()
         logger.info("Completed tools now")
 
         # Tool descriptions moved to constants for clarity
@@ -126,15 +126,15 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
 
         SEARCH_PROTOCOLS_DESC = f"""
             Search the publicly available protocols and treatment guidelines for Indian patients.
-            When the query is about any of these conditions:
-            {",".join(conditions)}
+            When the query is about any of these tags/conditions:
+            {",".join(tags)}
 
-            requires output from following tools - get_protocol_publishers 
+            requires output from following tools - protocol_publishers 
 
             Prerequisite before invoking the tool
             1. Intent conformation
             - No assumptions can be made about condition about based on symptoms solely.
-            - Ask the doctor if they would like symptomatic treatment or condition driven
+            - Ask the doctor if they would like symptomatic treatment or tag/condition driven
             - Always confirm the suspected condition(s) with the doctor before searching protocols or treatments.
             - Explicit conformation could be in patient's history or else the doctor's reference in the chat.
             - While request conformation, provide the user with options of the potential conditions and request them to choose from them.
@@ -146,7 +146,7 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
             - In case the confirmed condition is not in the list, then do not invoke the tool
             2. Publisher retrieval
             - Publisher preference should be asked before protocol search if it's not specified in the query, do not assume any publisher
-            - The publishers supported are dynamic and supported publishers can be fetched only from the tool get_protocol_publishers  
+            - The publishers supported are dynamic and supported publishers can be fetched only from the tool protocol_publishers  
             - If the publisher list is empty, then do not invoke the tool
             3. Publisher preference selection
             - Once possible publishers are available, confirm which preferred publisher from the retrieved list should be queried
@@ -168,8 +168,8 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
         """
 
         PROTOCOL_PUBLISHERS_DESC = f"""
-            Get all available publishers of protocols for the supported conditions. 
-            Accepts only {', '.join(conditions)} these conditions
+            Get all available publishers of protocols for the supported tags/conditions. 
+            Accepts only {', '.join(tags)} these tags/conditions
         """
 
         return [
