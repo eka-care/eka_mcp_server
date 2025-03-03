@@ -1,21 +1,7 @@
-# eka-assist MCP server
+# Eka MCP server
 
-Eka Assist MCP server, that is capable of recommending protocols for  different treatments
 
 ## Components
-
-### Resources
-
-The server implements a simple note storage system with:
-- Custom note:// URI scheme for accessing individual notes
-- Each note resource has a name, description and text/plain mimetype
-
-### Prompts
-
-The server provides a single prompt:
-- summarize-notes: Creates summaries of all stored notes
-  - Optional "style" argument to control detail level (brief/detailed)
-  - Generates prompt combining all current notes with style preference
 
 ### Tools
 
@@ -26,11 +12,12 @@ The server implements one tool:
 
 ## Configuration
 
-[TODO: Add configuration details specific to your implementation]
 
 ## Quickstart
+This MCP tool will work with any STDIO supported client. 
+The instructions below are for installing on clients that support STDIO communication.
 
-### Install
+### Install on Claude
 
 #### Claude Desktop
 
@@ -45,9 +32,13 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
       "command": "uv",
       "args": [
         "--directory",
-        "/Users/praveenkumar/Desktop/EkaCare/eka-assist",
+        "/Users/<username>/Desktop/EkaCare/eka-assist",
         "run",
-        "eka-assist"
+        "eka_assist",
+        "--eka-mcp-host",
+        "http://localhost:8000",
+        "--eka-mcp-token",
+        "sk-test"
       ]
     }
   }
@@ -67,33 +58,6 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
   }
   ```
 </details>
-
-## Development
-
-### Building and Publishing
-
-To prepare the package for distribution:
-
-1. Sync dependencies and update lockfile:
-```bash
-uv sync
-```
-
-2. Build package distributions:
-```bash
-uv build
-```
-
-This will create source and wheel distributions in the `dist/` directory.
-
-3. Publish to PyPI:
-```bash
-uv publish
-```
-
-Note: You'll need to set PyPI credentials via environment variables or command flags:
-- Token: `--token` or `UV_PUBLISH_TOKEN`
-- Or username/password: `--username`/`UV_PUBLISH_USERNAME` and `--password`/`UV_PUBLISH_PASSWORD`
 
 ### Debugging
 
