@@ -26,37 +26,38 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
 
 <details>
   <summary>Development/Unpublished Servers Configuration</summary>
-  ```
-  "mcpServers": {
-    "eka-assist": {
-      "command": "uv",
-      "args": [
-        "--directory",
-        "/Users/<username>/Desktop/EkaCare/eka-assist",
-        "run",
-        "eka_assist",
-        "--eka-mcp-host",
-        "http://localhost:8000",
-        "--eka-mcp-token",
-        "sk-test"
-      ]
+
+    "mcpServers": {
+      "eka-assist": {
+        "command": "uv",
+        "args": [
+          "--directory",
+          "<eka_mcp_server_folder_path>",
+          "run",
+          "eka_assist",
+          "--eka-api-host",
+          "<eka_api_host>",
+          "--client-id",
+          "<client_id>",
+          "--client-token",
+          "<client_token>"
+        ]
+      }
     }
-  }
-  ```
 </details>
 
 <details>
   <summary>Published Servers Configuration</summary>
-  ```
-  "mcpServers": {
-    "eka-assist": {
-      "command": "uvx",
-      "args": [
-        "eka-assist"
-      ]
+  
+    "mcpServers": {
+      "eka-assist": {
+        "command": "uvx",
+        "args": [
+          "eka-assist"
+        ]
+      }
     }
-  }
-  ```
+  
 </details>
 
 ### Debugging
@@ -67,8 +68,8 @@ experience, we strongly recommend using the [MCP Inspector](https://github.com/m
 
 You can launch the MCP Inspector via [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) with this command:
 
-```bash
-npx @modelcontextprotocol/inspector uv --directory /Users/praveenkumar/Desktop/EkaCare/eka-assist run eka-assist
+```
+npx @modelcontextprotocol/inspector uv --directory <eka_mcp_server_folder_path> run eka_assist
 ```
 
 
