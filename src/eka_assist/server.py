@@ -38,20 +38,18 @@ async def main() -> None:
     try:
         logger.info("Validating server arguments ..")
         parser = argparse.ArgumentParser(description='Start MCP server')
+        parser.add_argument('--eka-api-host', required=True, help='EKA MCP API Client ID')
         parser.add_argument('--client-id', required=True, help='EKA MCP API Client ID')
         parser.add_argument('--client-token', required=True, help='EKA MCP API token')
 
         args = parser.parse_args()
 
-        pool_limits = {
-            "max_connections": 4,
-            "max_keepalive_connections": 2,
-        }
+        logger.info(f"All arguments: {args}")
         # Initialize the EkaMCP client
         eka_mcp = EkaMCP(
+            eka_api_host=args.eka_api_host,
             client_id=args.client_id,
             client_token=args.client_token,
-            pool_limits=pool_limits,
             logger=logger
         )
 

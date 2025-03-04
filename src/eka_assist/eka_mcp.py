@@ -7,39 +7,32 @@ import httpx
 
 
 class EkaMCP:
-    def __init__(self, client_id: str, client_token: str, logger: Logger, pool_limits: Optional[Dict[str, int]] = None):
+    def __init__(self, eka_api_host: str, client_id: str, client_token: str, logger: Logger):
         """
         Initialize the EkaAssist client with connection pooling.
 
         Args:
-            api_url: Base URL for the API
-            api_token: API token for authentication
-            pool_limits: Optional dict with pool configuration (max_connections, max_keepalive_connections)
+            eka_api_host: Base URL for the API
+            client_id: Client ID
+            client_token: Client token for authentication
             logger: Logger to log information
         """
+
         self.logger = logger
-        self.api_url = "https://api.dev.eka.care"
-        self.client_id = client_id
-        self.client_token = client_token
-
-        self.auth_creds = self._get_client_token()
-
-        if pool_limits is None:
-            pool_limits = {
-                "max_connections": 10,
-                "max_keepalive_connections": 5,
-            }
-
-        limits = httpx.Limits(
-            max_connections=pool_limits["max_connections"],
-            max_keepalive_connections=pool_limits["max_keepalive_connections"]
-        )
-
         self.client = httpx.Client(
             timeout=30.0,
-            limits=limits,
+            limits=httpx.Limits(
+                max_connections=10,
+                max_keepalive_connections=5
+            ),
             http2=False
         )
+
+        self.api_url = eka_api_host
+        self.client_id = client_id
+        self.client_token = client_token
+        self.auth_creds = self._get_client_token()
+        self.logger.info(f"Client credentials: {self.auth_creds}")
 
     def close(self):
         """Close the HTTP client and its connection pool when done"""
@@ -97,8 +90,8 @@ class EkaMCP:
 
         url = f"{self.api_url}/connect-auth/v1/account/login"
         data = {
-            "client_id": {self.client_id},
-            "client_secret": {self.client_token}
+            "client_id": self.client_id,
+            "client_secret": self.client_token
         }
 
         resp = self.client.post(url, json=data)
@@ -144,7 +137,7 @@ class EkaMCP:
             "Authorization": f"Bearer {self.auth_creds['access_token']}",
             "Content-Type": "application/json"
         }
-        url = f"{self.api_url}/eka_mcp/{endpoint}"
+        url = f"{self.api_url}/eka-mcp/{endpoint}"
         self.logger.info(f"This is the url: {url}")
         try:
             if method.lower() == "get":
