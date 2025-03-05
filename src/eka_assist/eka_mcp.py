@@ -176,7 +176,7 @@ class EkaMCP:
     # Medication endpoints
     def get_suggested_drugs(self, arguments: Dict[str, Any]):
         """Gets a list of all drugs matching with given name from the API."""
-        return self._make_request("get", "medications/v1/understanding", params=arguments)
+        return self._make_request("get", "medications/v1/search", params=arguments)
 
     def get_drug_interactions(self, arguments: Dict[str, Any]):
         """Gets a list of all drugs that interact with each other from the API."""

@@ -1,37 +1,43 @@
 # Eka MCP Server
 
 ## Overview
-Eka MCP Server implements a Model Context Protocol server that provides note-taking functionality to compatible clients.
 
-## Components
+Healthcare professionals frequently need to switch context to access additional information while treating patients. While AI can serve as a bridge to provide this information, there is an inherent risk of hallucination. The Eka MCP server addresses this challenge by grounding Large Language Model (LLM) responses in curated medical information from eka.care.
 
-### Tools
+The Model Context Protocol (MCP) functions as a universal interface for AI applications, enabling LLMs to access and utilize relevant information effectively. While there are many open-source MCP servers available, the Eka MCP server specifically targets healthcare use cases with curated medical tools.
 
-The server implements one tool:
-- **add-note**: Adds a new note to the server
-  - Takes `name` and `content` as required string arguments
-  - Updates server state and notifies clients of resource changes
+## Features
 
-## Configuration
-Configuration is handled through command-line arguments when launching the server:
-- `--eka-api-host`: The host URL for the Eka API
-- `--client-id`: Your client ID for authentication
-- `--client-token`: Your client token for authentication
+### Curated Tools
 
-## Quickstart
-This MCP tool works with any STDIO-supported client. 
-The instructions below are for installing on clients that support STDIO communication.
+1. **Medications**
+   - **Medication Understanding**: Access to a comprehensive corpus of drugs for various treatments. The LLM can intelligently recommend appropriate brands for specific diseases.
+   - **Medication Interaction**: Check for interactions between drugs and identify medications with identical generic compositions.
 
-### Install on Claude
+2. **Protocols**
+   - Standardized guidelines, procedures, and decision pathways for healthcare professionals to follow when diagnosing and treating specific conditions.
+   - Serve as comprehensive roadmaps for clinical care, ensuring consistent and evidence-based treatment approaches.
+   - **Publishers**: Organizations responsible for developing, validating, distributing, and maintaining medical protocols.
+   - **Tags and Conditions**: Metadata related to diseases, disorders, or clinical situations that protocols address.
 
-#### Claude Desktop
+## How It Works
 
-Configuration file locations:
-- On MacOS: `~/Library/Application\ Support/Claude/claude_desktop_config.json`
-- On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
+Medical protocol adherence is critical, as even slight deviations can lead to serious consequences. The Eka MCP server follows specific steps to ensure accurate responses:
 
+1. Users can request treatment protocols for diseases without providing basic knowledge.
+2. Tags and conditions must be verified since treatments vary accordingly.
+3. Once the user verifies the condition, a list of relevant publications is presented.
+4. After the user confirms a publication, treatment protocols are provided in the response.
 
-#### Development/Unpublished Servers Configuration
+## Installation and Setup for Claude
+
+1. Download and install Claude desktop application.
+2. Locate the configuration file:
+   - **macOS**: `/Library/Application\ Support/Claude/claude_desktop_config.json`
+   - **Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
+
+3. Modify the configuration file with the following settings:
+
 ```json
 {
   "mcpServers": {
@@ -54,26 +60,17 @@ Configuration file locations:
 }
 ```
 
-#### Published Servers Configuration
-  
-```json
-{
-  "mcpServers": {
-    "eka-assist": {
-      "command": "uvx",
-      "args": [
-        "eka-assist"
-      ]
-    }
-  }
-}
-```
+4. Replace the placeholder values:
+   - `<eka_mcp_server_folder_path>`: Path to the folder containing the Eka MCP server
+   - `<eka_api_host>`: Eka API host URL
+   - `<client_id>`: Your client ID
+   - `<client_token>`: Your client token
 
+> **Note**: You can obtain the `eka-api-host`, `client-id`, and `client-token` from developer tools or by contacting the Eka support team.
 
-### Debugging
+## Debugging
 
-Since MCP servers run over stdio, debugging can be challenging. For the best debugging
-experience, we strongly recommend using the [MCP Inspector](https://github.com/modelcontextprotocol/inspector).
+Since MCP servers run over stdio, debugging can be challenging. For the best debugging experience, we recommend using the [MCP Inspector](https://github.com/modelcontextprotocol/inspector).
 
 You can launch the MCP Inspector via [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) with this command:
 
@@ -84,7 +81,14 @@ npx @modelcontextprotocol/inspector uv --directory <eka_mcp_server_folder_path> 
 Upon launching, the Inspector will display a URL that you can access in your browser to begin debugging.
 
 ## Usage
-Once installed, the Eka MCP server will be available to your Claude client. You can use the `add-note` tool to create and store notes through the Claude interface.
+
+Once installed and configured correctly, the Eka MCP server will be available to your Claude client. You can interact with the available tools through the Claude interface to:
+
+- Look up medications and their compositions
+- Check for drug interactions
+- Access treatment protocols for specific conditions
+- Verify treatment guidelines from trusted medical publications
 
 ## Support
-For additional support, please refer to the documentation or contact the Eka support team.
+
+For additional support, please refer to the complete documentation or contact the Eka support team at support@eka.care.
