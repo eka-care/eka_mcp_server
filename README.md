@@ -13,12 +13,23 @@ The open-source ecosystem for MCP is growing strongly, the Eka MCP server specif
 
 ## Medications tool suite
 ### Medication Understanding tool 
+<details>
+<summary>Tool definition here</summary>
+https://github.com/eka-care/eka_mcp_server/blob/14ea2d17ac4d93e619583a4b719a925180d8ff7d/src/eka_assist/mcp_server.py#L113-L120
+</details>
+
+
 Access to a comprehensive corpus of drugs based on the drug name or generic composition and filtered further through the drug form and volume
 ![Medication Understanding](assets/medication_understanding.png)
 APIs required for this tool
    - https://developer.eka.care/api-reference/eka_mcp/medications/search 
 
 ### Medication Interaction
+<details>
+<summary>Tool definition here</summary>
+https://github.com/eka-care/eka_mcp_server/blob/14ea2d17ac4d93e619583a4b719a925180d8ff7d/src/eka_assist/mcp_server.py#L122-L126
+</details>
+
 Check for potential interactions between drugs based on the X,A,B,C,D severity levels 
    - ![Medication Interaction](assets/medication_interaction.png)
 APIs required for this tool
@@ -26,6 +37,11 @@ APIs required for this tool
    - https://developer.eka.care/api-reference/eka_mcp/medications/interactions
 
 ## Treatment Protocols
+<details>
+<summary>Tool definition here</summary>
+https://github.com/eka-care/eka_mcp_server/blob/14ea2d17ac4d93e619583a4b719a925180d8ff7d/src/eka_assist/mcp_server.py#L128-L174
+</details>
+
 Standardized guidelines, procedures, and decision pathways for healthcare professionals are published by medical bodies.
 They serve as comprehensive roadmaps for clinical care, ensuring consistent and evidence-based treatment approaches.
 **Currently, we support 175 tags and 180 protocols**
