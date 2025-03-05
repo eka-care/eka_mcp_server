@@ -32,7 +32,6 @@ class EkaMCP:
         self.client_id = client_id
         self.client_token = client_token
         self.auth_creds = self._get_client_token()
-        self.logger.info(f"Client credentials: {self.auth_creds}")
 
     def close(self):
         """Close the HTTP client and its connection pool when done"""
@@ -138,7 +137,6 @@ class EkaMCP:
             "Content-Type": "application/json"
         }
         url = f"{self.api_url}/eka-mcp/{endpoint}"
-        self.logger.info(f"This is the url: {url}")
         try:
             if method.lower() == "get":
                 response = self.client.get(url, headers=headers, **kwargs)
@@ -199,5 +197,5 @@ class EkaMCP:
                 continue
             supported_tags.append(text)
 
-        self.logger.info(f"Available conditions/tags: {supported_tags}")
+        self.logger.info(f"Available tags: {supported_tags}")
         return supported_tags
