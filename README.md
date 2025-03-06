@@ -67,13 +67,14 @@ APIs required for this tool
 > You can obtain the `eka-api-host`, `client-id`, and `client-token` from developer tools or by contacting the Eka support team.
 
 ## Installation and Setup for Claude
-1. Clone this repository
-2. Download and install Claude desktop application.
-3. Locate the configuration file:
+1. Install uv
+2. Clone this repository
+3. Download and install Claude desktop application.
+4. Locate the configuration file:
    - **macOS**: `/Library/Application\ Support/Claude/claude_desktop_config.json`
    - **Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
 
-4. Modify the configuration file with the following settings:
+5. Modify the configuration file with the following settings:
 
 ```json
 {
