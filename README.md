@@ -3,10 +3,17 @@
 ## Overview
 
 Healthcare professionals frequently need to switch context to access additional information while treating patients. While AI can serve as a bridge to provide this information, there is an inherent risk of hallucination. 
-The Eka MCP server addresses this challenge by grounding Large Language Model (LLM) responses in curated medical information from eka.care.
+The Eka MCP Server addresses this challenge by:
 
-The Model Context Protocol (MCP) functions as a universal interface for AI applications, enabling LLMs to access and utilize relevant information effectively. 
-The open-source ecosystem for MCP is growing strongly, the Eka MCP server specifically targets healthcare use cases with curated medical tools.
+* Grounding LLM responses in curated medical information from eka.care
+* Providing healthcare-specific tools validated by in-house doctors
+* Enabling secure access to real-time medication data and treatment protocols for the LLM
+
+Key Benefits:
+* 🩺 Medical Accuracy: Ground AI responses in verified healthcare information
+* 🔄 Seamless Workflow: Access critical information without context switching
+* 🛡️ Reduced Hallucinations: Rely on curated medical data rather than AI's general knowledge
+* 🌐 Open Ecosystem: Part of the growing MCP open standard
 
 # Tools
 > EKA MCP server tools are curated by the in-house doctors at eka.care and have been validated on an internal set of questionnaire 
