@@ -15,6 +15,63 @@ Key Benefits:
 * 🛡️ Reduced Hallucinations: Rely on curated medical data rather than AI's general knowledge
 * 🌐 Open Ecosystem: Part of the growing MCP open standard
 
+# Get Started
+## Get your developer key from eka.care
+> You can obtain the `eka-api-host`, `client-id`, and `client-token` from developer.eka.care or reach out to us on support@eka.care
+
+## Installation and Setup for Claude Desktop
+1. Install UV - https://docs.astral.sh/uv/getting-started/installation/#installation-methods
+2. Clone this repository
+```bash
+git clone https://github.com/eka-care/eka_mcp_server.git 
+```
+3. Install Claude desktop application - https://claude.ai/download
+4. Locate the configuration file:
+   - **macOS**: `/Library/Application\ Support/Claude/claude_desktop_config.json`
+   - **Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
+
+5. Modify the configuration file with the following settings:
+
+```json
+{
+  "mcpServers": {
+     ...
+    "eka-mcp-server": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "<eka_mcp_server_folder_path>",
+        "run",
+        "eka_mcp_server",
+        "--eka-api-host",
+        "<eka_api_host>",
+        "--client-id",
+        "<client_id>",
+        "--client-secret",
+        "<client_secret>"
+      ]
+    }, 
+     ...
+  }
+}
+```
+6. Replace the placeholder values:
+   - `<eka_mcp_server_folder_path>`: Path to the folder containing the Eka MCP server
+   - `<eka_api_host>`: Eka API host URL
+   - `<client_id>`: Your client ID
+   - `<client_secret>`: Your client secret
+
+## Debugging
+
+Since MCP servers run over stdio, debugging can be challenging. For the best debugging experience, we recommend using the [MCP Inspector](https://github.com/modelcontextprotocol/inspector).
+
+You can launch the MCP Inspector via [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) with this command:
+
+```bash
+npx @modelcontextprotocol/inspector uv --directory <eka_mcp_server_folder_path> run eka_assist
+```
+Upon launching, the Inspector will display a URL that you can access in your browser to begin debugging.
+
 # Tools
 > EKA MCP server tools are curated by the in-house doctors at eka.care and have been validated on an internal set of questionnaire 
 
@@ -73,62 +130,6 @@ APIs required for this tool
 ![Publisher Confirmation](assets/protocol_publishers.png)
 ![Treatment Protocol](assets/protocol_search.png)
 
-# Get Started
-## Get your developer key from eka.care
-> You can obtain the `eka-api-host`, `client-id`, and `client-token` from developer.eka.care or reach out to us on support@eka.care
-
-## Installation and Setup for Claude Desktop
-1. Install UV - https://docs.astral.sh/uv/getting-started/installation/#installation-methods
-2. Clone this repository
-```bash
-git clone https://github.com/eka-care/eka_mcp_server.git 
-```
-3. Install Claude desktop application - https://claude.ai/download
-4. Locate the configuration file:
-   - **macOS**: `/Library/Application\ Support/Claude/claude_desktop_config.json`
-   - **Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
-
-5. Modify the configuration file with the following settings:
-
-```json
-{
-  "mcpServers": {
-     ...
-    "eka-mcp-server": {
-      "command": "uv",
-      "args": [
-        "--directory",
-        "<eka_mcp_server_folder_path>",
-        "run",
-        "eka_mcp_server",
-        "--eka-api-host",
-        "<eka_api_host>",
-        "--client-id",
-        "<client_id>",
-        "--client-secret",
-        "<client_secret>"
-      ]
-    }, 
-     ...
-  }
-}
-```
-6. Replace the placeholder values:
-   - `<eka_mcp_server_folder_path>`: Path to the folder containing the Eka MCP server
-   - `<eka_api_host>`: Eka API host URL
-   - `<client_id>`: Your client ID
-   - `<client_secret>`: Your client secret
-
-## Debugging
-
-Since MCP servers run over stdio, debugging can be challenging. For the best debugging experience, we recommend using the [MCP Inspector](https://github.com/modelcontextprotocol/inspector).
-
-You can launch the MCP Inspector via [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) with this command:
-
-```bash
-npx @modelcontextprotocol/inspector uv --directory <eka_mcp_server_folder_path> run eka_assist
-```
-Upon launching, the Inspector will display a URL that you can access in your browser to begin debugging.
 
 ### Bugs and Issue Reporting
 Please report any issues or bugs on the GitHub issue tracker.
