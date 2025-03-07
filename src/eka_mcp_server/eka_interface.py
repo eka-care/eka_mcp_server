@@ -5,6 +5,11 @@ from typing import Dict, Any, Optional
 
 import httpx
 
+class RefreshTokenError(Exception):
+    pass
+
+class CreateTokenError(Exception):
+    pass
 
 class EkaMCP:
     def __init__(self, eka_api_host: str, client_id: str, client_secret: str, logger: Logger):
@@ -57,9 +62,8 @@ class EkaMCP:
             Dictionary containing refreshed authentication credentials with expiration time
 
         Raises:
-            SystemExit: If the refresh token request fails
+            RefreshTokenError: If the refresh token request fails
         """
-
         url = f"{self.api_url}/connect-auth/v1/account/refresh"
         data = {
             "access_token": auth_creds["access_token"],
@@ -67,38 +71,46 @@ class EkaMCP:
         }
 
         current_time = int(time.time())
-        resp = self.client.post(url, json=data)
-        if resp.status_code != 200:
-            self.logger.error(f"Failed to Get Eka Refresh token: {resp.text}")
-            sys.exit(1)
+        try:
+            resp = self.client.post(url, json=data)
+            resp.raise_for_status()
 
-        creds = resp.json()
-        creds["expires_at"] = current_time + creds["expires_in"]
-        return creds
+            creds = resp.json()
+            creds["expires_at"] = current_time + creds["expires_in"]
+            return creds
+        except httpx.HTTPStatusError as e:
+            self.logger.error(f"Token refresh failed: {e}")
+            raise RefreshTokenError(f"Failed to refresh token: {str(e)}") from e
+        except Exception as e:
+            self.logger.error(f"Unexpected error during token refresh: {e}")
+            raise RefreshTokenError(f"Unexpected error: {str(e)}") from e
 
     def _get_client_token(self):
         """
-       Authenticate with the Eka API using client credentials and obtain a valid token.
+        Authenticate with the Eka API using client credentials and obtain a valid token.
 
-       Returns:
-           Dictionary containing authentication credentials with expiration time
+        Returns:
+            Dictionary containing authentication credentials with expiration time
 
-       Raises:
-           SystemExit: If authentication fails due to invalid credentials
-       """
-
+        Raises:
+            CreateTokenError: If the request to create a token fails
+        """
         url = f"{self.api_url}/connect-auth/v1/account/login"
         data = {
             "client_id": self.client_id,
             "client_secret": self.client_secret
         }
 
-        resp = self.client.post(url, json=data)
-        if resp.status_code != 200:
-            self.logger.error(f"Invalid Eka MCP credentials: {resp.text}")
-            sys.exit(1)
-
-        return self._get_refresh_token(resp.json())
+        try:
+            resp = self.client.post(url, json=data)
+            resp.raise_for_status()
+            return self._get_refresh_token(resp.json())
+        except httpx.HTTPStatusError as e:
+            self.logger.error(f"Client token creation failed: {e}")
+            raise CreateTokenError(f"Failed to create token: {str(e)}") from e
+        except Exception as e:
+            self.logger.error(f"Unexpected error during token creation: {e}")
+            raise CreateTokenError(f"Unexpected error: {str(e)}") from e
 
 
     def _refresh_auth_token(self):

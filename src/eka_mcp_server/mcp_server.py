@@ -5,7 +5,7 @@ import mcp.types as types
 from mcp.server import Server
 from pydantic import AnyUrl
 
-from .eka_mcp import EkaMCP
+from .eka_interface import EkaMCP
 from .models import MedicationUnderstanding, MedicationInteraction, QueryProtocols, ProtocolPublisher
 from .utils import download_image
 
@@ -153,19 +153,18 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
             - Once possible publishers are available, confirm which preferred publisher from the retrieved list should be queried
 
             Key triggers for tool invocation:
-            - Questions about management protocols
+            - Questions about condition management protocols
             - Screening recommendations
             - Treatment guidelines
             - Monitoring parameters
             - Drug choices
-            - Follow-up schedules
 
             Important notes:
             - When asking for conformation of any kind, question cannot exceed 10 words
             - Use exact condition names from the list
             - Keep queries concise and specific
             - Don't use question words in queries
-            - If results aren't relevant, rely on medical knowledge
+            - If results aren't relevant, rely on inherent medical knowledge
         """
 
         PROTOCOL_PUBLISHERS_DESC = f"""

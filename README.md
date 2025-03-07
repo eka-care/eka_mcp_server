@@ -21,6 +21,7 @@ https://github.com/eka-care/eka_mcp_server/blob/14ea2d17ac4d93e619583a4b719a9251
 Access comprehensive information about drugs from a corpus of drugs based on the drug name or generic composition and filtered further through the drug form and volume.
 
 ![Medication Understanding](assets/medication_understanding.png)
+
 APIs required for this tool
    - https://developer.eka.care/api-reference/eka_mcp/medications/search 
 
@@ -32,6 +33,7 @@ https://github.com/eka-care/eka_mcp_server/blob/14ea2d17ac4d93e619583a4b719a9251
 
 Check for potential interactions between drugs based on the X,A,B,C,D severity levels 
    - ![Medication Interaction](assets/medication_interaction.png)
+
 APIs required for this tool
    - https://developer.eka.care/api-reference/eka_mcp/medications/search - to get the generic composition of the drug name to check for interactions
    - https://developer.eka.care/api-reference/eka_mcp/medications/interactions
