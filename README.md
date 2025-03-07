@@ -96,8 +96,8 @@ git clone https://github.com/eka-care/eka_mcp_server.git
         "<eka_api_host>",
         "--client-id",
         "<client_id>",
-        "--client-token",
-        "<client_token>"
+        "--client-secret",
+        "<client_secret>"
       ]
     }, 
      ...
@@ -108,7 +108,7 @@ git clone https://github.com/eka-care/eka_mcp_server.git
    - `<eka_mcp_server_folder_path>`: Path to the folder containing the Eka MCP server
    - `<eka_api_host>`: Eka API host URL
    - `<client_id>`: Your client ID
-   - `<client_token>`: Your client token
+   - `<client_secret>`: Your client secret
 
 ## Debugging
 

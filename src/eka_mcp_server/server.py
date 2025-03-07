@@ -40,14 +40,14 @@ async def main() -> None:
         parser = argparse.ArgumentParser(description='Eka MCP server. Documentation available at - https://github.com/eka-care/eka_mcp_server/blob/main/README.md')
         parser.add_argument('--eka-api-host', required=True, help='EKA MCP API Host')
         parser.add_argument('--client-id', required=True, help='EKA MCP API Client ID')
-        parser.add_argument('--client-token', required=True, help='EKA MCP API token')
+        parser.add_argument('--client-secret', required=True, help='EKA MCP API token')
 
         args = parser.parse_args()
         # Initialize the EkaMCP client
         eka_mcp = EkaMCP(
             eka_api_host=args.eka_api_host,
             client_id=args.client_id,
-            client_token=args.client_token,
+            client_secret=args.client_secret,
             logger=logger
         )
 

@@ -7,14 +7,14 @@ import httpx
 
 
 class EkaMCP:
-    def __init__(self, eka_api_host: str, client_id: str, client_token: str, logger: Logger):
+    def __init__(self, eka_api_host: str, client_id: str, client_secret: str, logger: Logger):
         """
         Initialize the EkaAssist client with connection pooling.
 
         Args:
             eka_api_host: Base URL for the API
             client_id: Client ID
-            client_token: Client token for authentication
+            client_secret: Client client_secret for authentication
             logger: Logger to log information
         """
 
@@ -30,7 +30,7 @@ class EkaMCP:
 
         self.api_url = eka_api_host
         self.client_id = client_id
-        self.client_token = client_token
+        self.client_secret = client_secret
         self.auth_creds = self._get_client_token()
 
     def close(self):
@@ -90,7 +90,7 @@ class EkaMCP:
         url = f"{self.api_url}/connect-auth/v1/account/login"
         data = {
             "client_id": self.client_id,
-            "client_secret": self.client_token
+            "client_secret": self.client_secret
         }
 
         resp = self.client.post(url, json=data)
