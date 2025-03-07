@@ -1,7 +1,7 @@
 [project]
-name = "eka_assist"
+name = "eka_mcp_server"
 version = "0.1.0"
-description = "Eka Assist MCP server, that is capable of recommending protocols for  different treatments"
+description = "The offical Eka MCP Server for medical science related tools curated by eka.care"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -10,6 +10,7 @@ dependencies = [
     "logging>=0.4.9.6",
     "pillow>=11.0.0"
 ]
+
 [[project.authors]]
 name = "praveenkumar"
 email = "praveenkumar@eka.care"
@@ -19,4 +20,4 @@ requires = [ "hatchling",]
 build-backend = "hatchling.build"
 
 [project.scripts]
-eka_assist = "eka_assist:main"
+eka_mcp_server = "eka_mcp_server:main"

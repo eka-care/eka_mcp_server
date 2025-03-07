@@ -18,8 +18,8 @@ The open-source ecosystem for MCP is growing strongly, the Eka MCP server specif
 https://github.com/eka-care/eka_mcp_server/blob/14ea2d17ac4d93e619583a4b719a925180d8ff7d/src/eka_assist/mcp_server.py#L113-L120
 </details>
 
+Access comprehensive information about drugs from a corpus of drugs based on the drug name or generic composition and filtered further through the drug form and volume.
 
-Access to a comprehensive corpus of drugs based on the drug name or generic composition and filtered further through the drug form and volume
 ![Medication Understanding](assets/medication_understanding.png)
 APIs required for this tool
    - https://developer.eka.care/api-reference/eka_mcp/medications/search 
@@ -44,11 +44,13 @@ https://github.com/eka-care/eka_mcp_server/blob/14ea2d17ac4d93e619583a4b719a9251
 
 Standardized guidelines, procedures, and decision pathways for healthcare professionals are published by medical bodies.
 They serve as comprehensive roadmaps for clinical care, ensuring consistent and evidence-based treatment approaches.
-**Currently, we support 175 tags and 180 protocols**
-   - **Publishers**: Organizations responsible for developing, validating, distributing, and maintaining medical protocols.
-   - **Tags**: Metadata related to conditions, clinical situations or workflows that protocols address.
 
-### Workflow
+Current Coverage:
+* 175 medical conditions/tags
+* 180 treatment protocols
+* Multiple authoritative publishers
+
+### Treatment Protocols Workflow
 1. For any given query, the LLM has to decide if the tag is supported or not through [this API](http://developer.eka.care/api-reference/eka_mcp/protocols/tags). During the init of the tool, we fetch the supported conditions.
 2. Then, for the given tag, the LLM has to get the publishers that address that tag through [this API](http://developer.eka.care/api-reference/eka_mcp/protocols/publishers_by_tag).
 3. Finally, with the tag, publisher and query, we fetch the relevant information from the repository of publishers through [this API](http://developer.eka.care/api-reference/eka_mcp/protocols/search).
@@ -64,12 +66,15 @@ APIs required for this tool
 
 # Get Started
 ## Get your developer key from eka.care
-> You can obtain the `eka-api-host`, `client-id`, and `client-token` from developer tools or by contacting the Eka support team.
+> You can obtain the `eka-api-host`, `client-id`, and `client-token` from developer.eka.care or reach out to us on support@eka.care
 
-## Installation and Setup for Claude
-1. Install uv
+## Installation and Setup for Claude Desktop
+1. Install UV - https://docs.astral.sh/uv/getting-started/installation/#installation-methods
 2. Clone this repository
-3. Download and install Claude desktop application.
+```bash
+git clone https://github.com/eka-care/eka_mcp_server.git 
+```
+3. Install Claude desktop application - https://claude.ai/download
 4. Locate the configuration file:
    - **macOS**: `/Library/Application\ Support/Claude/claude_desktop_config.json`
    - **Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
@@ -86,7 +91,7 @@ APIs required for this tool
         "--directory",
         "<eka_mcp_server_folder_path>",
         "run",
-        "eka_assist",
+        "eka_mcp_server",
         "--eka-api-host",
         "<eka_api_host>",
         "--client-id",
@@ -99,7 +104,7 @@ APIs required for this tool
   }
 }
 ```
-4. Replace the placeholder values:
+6. Replace the placeholder values:
    - `<eka_mcp_server_folder_path>`: Path to the folder containing the Eka MCP server
    - `<eka_api_host>`: Eka API host URL
    - `<client_id>`: Your client ID
@@ -116,15 +121,18 @@ npx @modelcontextprotocol/inspector uv --directory <eka_mcp_server_folder_path> 
 ```
 Upon launching, the Inspector will display a URL that you can access in your browser to begin debugging.
 
-## Usage
+### Bugs and Issue Reporting
+Please report any issues or bugs on the GitHub issue tracker.
 
-Once installed and configured correctly, the Eka MCP server will be available to your Claude client. You can interact with the available tools through the Claude interface to:
+## FAQ
+**Q: Can I use this without an eka.care account?**
 
-- Look up medications and their compositions
-- Check for drug interactions
-- Access treatment protocols for specific conditions
-- Verify treatment guidelines from trusted medical publications
+A: No, you need valid API credentials from eka.care to access the medical information.
 
-## Support
+**Q: Is this service free?**
 
-For additional support, please refer to the complete documentation or contact the Eka support team at support@eka.care.
+A: While the MCP server code is open-source, access to eka.care's APIs required valid credentials.
+
+**Q: Which LLMs support MCP natively?**
+
+A: Currently, Anthropic's Claude models have native MCP support and also Cursor and Windsurf applications.
