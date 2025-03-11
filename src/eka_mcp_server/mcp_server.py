@@ -158,6 +158,17 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
             - Treatment guidelines
             - Monitoring parameters
             - Drug choices
+            
+            Query writing guidelines:
+            - Incase the question is too broad, breakdown the query into multiple sub queries asking targeted questions
+            - This tool will be invoked multiple times for each sub-query
+            - Query needs to be specific and concise, use keywords commonly found in medical protocols published by medical bodies like ADA, ICMR, RSSDI
+            Example
+            user query - "What are the treatment guidelines for diabetes?"
+            sub queries -
+            1. "Monitoring parameters for diabetes"
+            2. "Treatment strategies for diabetes"
+            3. "Drug choices for diabetes"
 
             Important notes:
             - When asking for conformation of any kind, question cannot exceed 10 words
