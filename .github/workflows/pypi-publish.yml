@@ -15,6 +15,9 @@ on:
     tags:
       - 'v*'           # Push events to every version tag
 
+env:
+  UV_PUBLISH_TOKEN: '${{ secrets.PYPI_API_TOKEN }}'
+
 jobs:
   build:
 
