@@ -1,7 +1,7 @@
 [project]
 name = "eka_mcp_server"
-version = "0.1.0"
-description = "The offical Eka MCP Server for medical science tools curated by eka.care"
+version = "0.1.1"
+description = "The official Eka MCP Server for medical science tools curated by eka.care"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -15,6 +15,11 @@ dependencies = [
 [[project.authors]]
 name = "praveenkumar"
 email = "praveenkumar@eka.care"
+
+[project.urls]
+Repository = "https://github.com/eka-care/eka_mcp_server"
+Documentation = "https://developer.eka.care/api-reference/eka_mcp/overview"
+
 
 [build-system]
 requires = [ "hatchling",]

@@ -21,26 +21,19 @@ Key Benefits:
 
 ## Installation and Setup for Claude Desktop
 1. Install UV - https://docs.astral.sh/uv/getting-started/installation/#installation-methods
-2. Clone this repository
-```bash
-git clone https://github.com/eka-care/eka_mcp_server.git 
-```
-3. Install Claude desktop application - https://claude.ai/download
-4. Locate the configuration file:
+2. Install Claude desktop application - https://claude.ai/download
+3. Locate the configuration file:
    - **macOS**: `/Library/Application\ Support/Claude/claude_desktop_config.json`
    - **Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
 
-5. Modify the configuration file with the following settings:
+4. Modify the configuration file with the following settings:
 
 ```json
 {
   "mcpServers": {
-     ...
     "eka-mcp-server": {
-      "command": "uv",
+      "command": "uvx",
       "args": [
-        "--directory",
-        "<eka_mcp_server_folder_path>",
         "run",
         "eka_mcp_server",
         "--eka-api-host",
@@ -51,12 +44,10 @@ git clone https://github.com/eka-care/eka_mcp_server.git
         "<client_secret>"
       ]
     }, 
-     ...
   }
 }
 ```
-6. Replace the placeholder values:
-   - `<eka_mcp_server_folder_path>`: Path to the folder containing the Eka MCP server
+5. Replace the placeholder values:
    - `<eka_api_host>`: Eka API host URL
    - `<client_id>`: Your client ID
    - `<client_secret>`: Your client secret

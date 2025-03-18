@@ -33,9 +33,9 @@ async def main() -> None:
     )
 
     logger = logging.getLogger("main")
-    logger.info("Starting Eka MCP server ..")
+    logger.info("Starting Eka MCP server..")
 
-    logger.info("Validating server arguments ..")
+    logger.info("Validating server arguments..")
     parser = argparse.ArgumentParser(description='Eka MCP server. Documentation available at - https://github.com/eka-care/eka_mcp_server/blob/main/README.md')
     parser.add_argument('--eka-api-host', required=True, help='EKA MCP API Host')
     parser.add_argument('--client-id', required=True, help='EKA MCP API Client ID')
