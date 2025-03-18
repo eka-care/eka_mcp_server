@@ -1,7 +1,7 @@
 [project]
 name = "eka_mcp_server"
 version = "0.1.0"
-description = "The offical Eka MCP Server for medical science related tools curated by eka.care"
+description = "The offical Eka MCP Server for medical science tools curated by eka.care"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
