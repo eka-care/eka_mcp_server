@@ -111,7 +111,6 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
         """
         logger.info("Listing tools now")
         tags = eka_mcp.get_supported_tags()
-        logger.info("Completed tools now")
 
         return [
             types.Tool(
@@ -177,7 +176,6 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
         protocols = eka_mcp.get_protocols(arguments)
         output = []
         for protocol in protocols:
-            logger.info(f"Protocol: {protocol}")
             url = protocol.get("url")
             try:
                 data = download_image(url)
