@@ -22,11 +22,12 @@ Key Benefits:
 ## Installation and Setup for Claude Desktop
 1. Install UV - https://docs.astral.sh/uv/getting-started/installation/#installation-methods
 2. Install Claude desktop application - https://claude.ai/download
-3. Locate the configuration file:
+3. Run `uv pip install eka_mcp_server`
+4. Locate the configuration file:
    - **macOS**: `/Library/Application\ Support/Claude/claude_desktop_config.json`
    - **Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
 
-4. Modify the configuration file with the following settings:
+5. Modify the configuration file with the following settings:
 
 ```json
 {
