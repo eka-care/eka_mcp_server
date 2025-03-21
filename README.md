@@ -35,7 +35,6 @@ Key Benefits:
     "eka-mcp-server": {
       "command": "uvx",
       "args": [
-        "run",
         "eka_mcp_server",
         "--eka-api-host",
         "<eka_api_host>",

@@ -1,8 +1,6 @@
 import argparse
-import sys
 
 import logging
-from logging.handlers import RotatingFileHandler
 
 import mcp.server.stdio
 from mcp.server import NotificationOptions
@@ -22,13 +20,7 @@ async def main() -> None:
         level=logging.INFO,
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         handlers=[
-            logging.StreamHandler(),
-            RotatingFileHandler(
-                "app.log",
-                maxBytes=10485760,
-                backupCount=5,
-                encoding="utf-8"
-            )
+            logging.StreamHandler()
         ]
     )
 
