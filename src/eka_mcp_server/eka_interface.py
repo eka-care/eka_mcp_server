@@ -209,5 +209,4 @@ class EkaMCP:
                 continue
             supported_tags.append(text)
 
-        self.logger.info(f"Available tags: {supported_tags}")
         return supported_tags
