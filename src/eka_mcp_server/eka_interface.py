@@ -65,7 +65,7 @@ class EkaMCP:
         auth_creds = self._get_refresh_token(auth_creds)
         token = auth_creds["access_token"]
         jwt_payload = jwt.decode(token, options={"verify_signature": False})
-        auth_creds["jwt_payload"] = jwt_payload
+        auth_creds["jwt-payload"] = jwt_payload
         return auth_creds
 
 
