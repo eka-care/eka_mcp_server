@@ -1,0 +1,38 @@
+# Smithery configuration file: https://smithery.ai/docs/config#smitheryyaml
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - eka_api_host
+      - client_id
+      - client_secret
+    properties:
+      eka_api_host:
+        type: string
+        description: "Eka api host url"
+      client_id:
+        type: string
+        description: "Eka client id"
+      client_secret:
+        type: string
+        description: "Eka client secret"
+  commandFunction:
+    # A function that produces the CLI command to start the MCP on stdio.
+    |-
+    (config) => ({ 
+      command: 'docker', 
+      args: [
+        'run',
+        '-i',
+        '--rm',
+        '--eka-api-host',
+        '${config.eka_api_host}',
+        '--client-id',
+        '${config.client_id}',
+        '--client-secret',
+        '${config.client_secret}',
+      ]
+    })
