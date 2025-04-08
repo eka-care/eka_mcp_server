@@ -83,19 +83,6 @@ Access comprehensive information about drugs from a corpus of drugs based on the
 APIs required for this tool
    - https://developer.eka.care/api-reference/eka_mcp/medications/search 
 
-### Medication Interaction
-<details>
-<summary>Tool definition here</summary>
-https://github.com/eka-care/eka_mcp_server/blob/14ea2d17ac4d93e619583a4b719a925180d8ff7d/src/eka_assist/mcp_server.py#L122-L126
-</details>
-
-Check for potential interactions between drugs based on the X,A,B,C,D severity levels 
-   - ![Medication Interaction](assets/medication_interaction.png)
-
-APIs required for this tool
-   - https://developer.eka.care/api-reference/eka_mcp/medications/search - to get the generic composition of the drug name to check for interactions
-   - https://developer.eka.care/api-reference/eka_mcp/medications/interactions
-
 ## Treatment Protocols
 <details>
 <summary>Tool definition here</summary>
