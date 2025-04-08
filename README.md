@@ -5,22 +5,25 @@
 
 ## Overview
 
-Healthcare professionals frequently need to switch context to access additional information while treating patients. While AI can serve as a bridge to provide this information, there is an inherent risk of hallucination. 
-The Eka MCP Server addresses this challenge by:
+Eka Care's Model Context Protocol (MCP) server facilitates interaction with medical knowledge-bases specifically curated for the Indian healthcare context. While advanced models from Claude, OpenAI, and others can perform adequately in medical contexts, their responses often lack grounding in factual information and published references. Additionally, India faces a significant challenge with the absence of centralized repositories for branded medications in the public domain.
 
-* Grounding LLM responses in curated medical information from eka.care
-* Providing healthcare-specific tools validated by in-house doctors
-* Enabling secure access to real-time medication data and treatment protocols for the LLM
+The Eka MCP Server addresses these challenges by providing structured access to curated knowledge-bases through specialized tools:
+
+* **Indian Drug Discovery and Details**: Enables lookup across 500,000+ branded drugs available in India, returning comprehensive metadata including generic composition and manufacturer information to enhance LLM responses.
+* **Treatment Protocols**: Provides contextual access to over 180 treatment protocol documents published by authoritative Indian healthcare institutions such as ICMR and RSSDI.
+
 
 Key Benefits:
-* 🩺 Medical Accuracy: Ground AI responses in verified healthcare information
-* 🔄 Seamless Workflow: Access critical information without context switching
-* 🛡️ Reduced Hallucinations: Rely on curated medical data rather than AI's general knowledge
-* 🌐 Open Ecosystem: Part of the growing MCP open standard
+* 🩺 Medical Accuracy: Grounds AI responses in verified healthcare information
+* 🔄 Seamless Workflow: Provides critical information without requiring context switching
+* 🛡️ Reduced Hallucinations: Relies on curated medical data rather than AI's implicit general knowledge
+* 🌐 Open Ecosystem: Integrates with the growing MCP open standard
 
 # Get Started
 ## Get your developer key from eka.care
-> You can obtain the `eka-api-host`, `client-id`, and `client-token` from developer.eka.care or reach out to us on support@eka.care
+> [!NOTE]  
+> To obtain the `client-id`, and `client-token` reach out to us on ekaconnect@eka.care
+
 
 ## Installation and Setup for Claude Desktop
 1. Install UV - https://docs.astral.sh/uv/getting-started/installation/#installation-methods
@@ -28,8 +31,9 @@ Key Benefits:
 3. Locate the configuration file:
    - **macOS**: `/Library/Application\ Support/Claude/claude_desktop_config.json`
    - **Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
-
-4. Modify the configuration file with the following settings:
+   
+   In case the file does not exist, create a new file named `claude_desktop_config.json` in the above directory.
+4. Modify/Create the configuration file with the following settings:
 
 ```json
 {
@@ -39,18 +43,17 @@ Key Benefits:
       "args": [
         "eka_mcp_server",
         "--eka-api-host",
-        "<eka_api_host>",
+        "https://api.eka.care",
         "--client-id",
         "<client_id>",
         "--client-secret",
         "<client_secret>"
       ]
-    }, 
+    }
   }
 }
 ```
 5. Replace the placeholder values:
-   - `<eka_api_host>`: Eka API host URL
    - `<client_id>`: Your client ID
    - `<client_secret>`: Your client secret
 
@@ -61,23 +64,67 @@ Since MCP servers run over stdio, debugging can be challenging. For the best deb
 You can launch the MCP Inspector via [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) with this command:
 
 ```bash
-npx @modelcontextprotocol/inspector uv --directory <eka_mcp_server_folder_path> run eka_assist
+npx @modelcontextprotocol/inspector uvx eka_mcp_server --eka-api-host https://api.eka.care --client-id <client_id> --client-secret <client_secret>
 ```
 Upon launching, the Inspector will display a URL that you can access in your browser to begin debugging.
+
+## Troubleshooting common issues
+
+### spawn uvx ENOENT
+This commonly happens when uvx is not installed or the command cannot be discovered.
+![spawn uvx ENOENT screenshot](assets/uvx_debug.png)
+
+
+1. Install uv through this command 
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+2. Find the path of our uvx installation
+```bash
+which uvx
+```
+The output might be something like this
+```
+> /opt/homebrew/bin/uvx
+```
+
+In your config, update the command to the full path of the `uvx` executable. For example:
+```json
+{
+  "mcpServers": {
+    "eka-mcp-server": {
+      "command": "/opt/homebrew/bin/uvx",
+      "args": [
+        "eka_mcp_server",
+        "--eka-api-host",
+        "https://api.eka.care",
+        "--client-id",
+        "<client_id>",
+        "--client-secret",
+        "<client_secret>"
+      ]
+    } 
+  }
+}
+```
+
+
+
 
 # Tools
 > EKA MCP server tools are curated by the in-house doctors at eka.care and have been validated on an internal set of questionnaire 
 
 ## Medications tool suite
-### Medication Understanding tool 
+### Indian Drug discovery and details 
 <details>
 <summary>Tool definition here</summary>
-https://github.com/eka-care/eka_mcp_server/blob/14ea2d17ac4d93e619583a4b719a925180d8ff7d/src/eka_assist/mcp_server.py#L113-L120
+https://github.com/eka-care/eka_mcp_server/blob/c59af54ee4f323c2a27b62df06d498e006c60e7f/src/eka_mcp_server/constants.py#L1-L8
 </details>
 
 Access comprehensive information about drugs from a corpus of drugs based on the drug name or generic composition and filtered further through the drug form and volume.
 
-![Medication Understanding](assets/medication_understanding.png)
+![Indian Drug Discovery and Detaails](assets/indian_drug_details_and_discovery.png)
 
 APIs required for this tool
    - https://developer.eka.care/api-reference/eka_mcp/medications/search 
@@ -110,6 +157,19 @@ APIs required for this tool
 ![Publisher Confirmation](assets/protocol_publishers.png)
 ![Treatment Protocol](assets/protocol_search.png)
 
+## Accuracy Disclaimer
+
+The Eka MCP Server provides access to medical knowledge bases and drug information intended to support healthcare professionals in India. While we strive for accuracy and reliability, please note:
+
+- The information provided through this service is for informational purposes only and does not constitute medical advice.
+- Healthcare professionals should exercise their own clinical judgment when using this information.
+- Drug information and treatment protocols may change over time, and we make reasonable efforts to keep our databases updated.
+- We cannot guarantee 100% accuracy or completeness of all information, particularly for newly approved medications or recently updated treatment guidelines.
+- Users should verify critical information through official sources before making clinical decisions.
+- Our database of protocols is ever growing, but does not ensure completeness.
+
+Eka Care assumes no liability for any errors, omissions, or outcomes resulting from the use of information provided through this service.
+
 
 ### Bugs and Issue Reporting
 Please report any issues or bugs on the GitHub issue tracker.
@@ -121,7 +181,8 @@ A: No, you need valid API credentials from eka.care to access the medical inform
 
 **Q: Is this service free?**
 
-A: While the MCP server code is open-source, access to eka.care's APIs required valid credentials.
+A: While the MCP server code is open-source, access to eka.care's APIs requires valid credentials.
+For the initial few days, we are offering free access to the APIs. However, we will be charging for the API usage in the future.
 
 **Q: Which LLMs support MCP natively?**
 
