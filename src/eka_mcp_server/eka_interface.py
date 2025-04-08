@@ -4,6 +4,7 @@ from logging import Logger
 from typing import Dict, Any, Optional
 
 import httpx
+import jwt
 
 class RefreshTokenError(Exception):
     pass
@@ -36,7 +37,7 @@ class EkaMCP:
         self.api_url = eka_api_host
         self.client_id = client_id
         self.client_secret = client_secret
-        self.auth_creds = self._get_client_token()
+        self.auth_creds = self._get_auth_creds()
 
     def close(self):
         """Close the HTTP client and its connection pool when done"""
@@ -49,6 +50,23 @@ class EkaMCP:
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Ensure connection pool is closed when exiting context"""
         self.close()
+
+
+    def _get_auth_creds(self):
+        """
+        Obtain authentication credentials by first retrieving a client token
+        and then exchanging it for a refresh token.
+
+        Returns:
+            dict: A dictionary containing the final authentication credentials,
+                  typically including access_token, refresh_token, and expiry information.
+        """
+        auth_creds = self._get_client_token()
+        auth_creds = self._get_refresh_token(auth_creds)
+        token = auth_creds["access_token"]
+        jwt_payload = jwt.decode(token, options={"verify_signature": False})
+        auth_creds["jwt-payload"] = jwt_payload
+        return auth_creds
 
 
     def _get_refresh_token(self, auth_creds):
@@ -70,20 +88,17 @@ class EkaMCP:
             "refresh_token": auth_creds["refresh_token"],
         }
 
-        current_time = int(time.time())
         try:
             resp = self.client.post(url, json=data)
             resp.raise_for_status()
-
-            creds = resp.json()
-            creds["expires_at"] = current_time + creds["expires_in"]
-            return creds
+            return resp.json()
         except httpx.HTTPStatusError as e:
             self.logger.error(f"Token refresh failed: {e}")
             raise RefreshTokenError(f"Failed to refresh token: {str(e)}") from e
         except Exception as e:
             self.logger.error(f"Unexpected error during token refresh: {e}")
             raise RefreshTokenError(f"Unexpected error: {str(e)}") from e
+
 
     def _get_client_token(self):
         """
@@ -104,27 +119,24 @@ class EkaMCP:
         try:
             resp = self.client.post(url, json=data)
             resp.raise_for_status()
-            return self._get_refresh_token(resp.json())
+            return resp.json()
         except httpx.HTTPStatusError as e:
             self.logger.error(f"Client token creation failed: {e}")
-            raise CreateTokenError(f"Failed to create token: {str(e)}") from e
+            raise CreateTokenError(f"Failed to create token: {str(e)}")
         except Exception as e:
             self.logger.error(f"Unexpected error during token creation: {e}")
-            raise CreateTokenError(f"Unexpected error: {str(e)}") from e
+            raise CreateTokenError(f"Unexpected error: {str(e)}")
 
 
-    def _refresh_auth_token(self):
+    def _validate_and_gen_token(self):
         """
-        Validate the current authentication token and refresh it if it's about to expire.
-
-        Updates self.auth_creds with new credentials if the current token is expiring within 60 seconds.
+        Validate the current authentication token.
+        Updates self.auth_creds with new credentials if the current token is expired.
         """
-
-        auth_creds = self.auth_creds
         current_time = int(time.time())
-
-        if current_time - auth_creds["expires_at"] <= 60:
-            self.auth_creds = self._get_refresh_token(auth_creds)
+        exp_at = self.auth_creds["jwt-payload"].get("exp", 0)
+        if current_time >= exp_at - 120:
+            self.auth_creds = self._get_auth_creds()
 
     def _make_request(self, method: str, endpoint: str, **kwargs):
         """
@@ -142,8 +154,7 @@ class EkaMCP:
             httpx.HTTPStatusError: If the request fails
         """
 
-        self._refresh_auth_token()
-
+        self._validate_and_gen_token()
         headers = {
             "Authorization": f"Bearer {self.auth_creds['access_token']}",
             "Content-Type": "application/json"
