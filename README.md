@@ -5,12 +5,13 @@
 
 ## Overview
 
-Healthcare professionals frequently need to switch context to access additional information while treating patients. While AI can serve as a bridge to provide this information, there is an inherent risk of hallucination. 
-The Eka MCP Server addresses this challenge by:
+Eka Care's Model Context Protocol (MCP) server enables interaction with medical knowledge-bases curated specifically for Indian medical context. While SOTA models from Claude, OpenAI etc., could work fairly well for even medical context, their responses are are not grounded in facts and published references. Moreover, in the context of India there is a lack of centralised  repositories for branded drugs in public domain. 
 
-* Grounding LLM responses in curated medical information from eka.care
-* Providing healthcare-specific tools validated by in-house doctors
-* Enabling secure access to real-time medication data and treatment protocols for the LLM
+The Eka MCP Server addresses this challenge by providing access to cutated knowledge-bases through different tools. 
+
+* **Medication Understanding**: This tool enables lookup on 5 lac+ branded drugs in India. The tool returns rich metadata such as generic composition, manufacturer etc to enrich the LLM response.
+* **Treatment Protocols** This tool provides contextual lookup on 180+ treatment protocol documents published by Indian healthcare institutions such as ICMR and RSSDI. 
+
 
 Key Benefits:
 * 🩺 Medical Accuracy: Ground AI responses in verified healthcare information
