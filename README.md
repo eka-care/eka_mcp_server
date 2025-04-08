@@ -5,19 +5,19 @@
 
 ## Overview
 
-Eka Care's Model Context Protocol (MCP) server enables interaction with medical knowledge-bases curated specifically for Indian medical context. While SOTA models from Claude, OpenAI etc., could work fairly well for even medical context, their responses are are not grounded in facts and published references. Moreover, in the context of India there is a lack of centralised  repositories for branded drugs in public domain. 
+Eka Care's Model Context Protocol (MCP) server facilitates interaction with medical knowledge-bases specifically curated for the Indian healthcare context. While advanced models from Claude, OpenAI, and others can perform adequately in medical contexts, their responses often lack grounding in factual information and published references. Additionally, India faces a significant challenge with the absence of centralized repositories for branded medications in the public domain.
 
-The Eka MCP Server addresses this challenge by providing access to cutated knowledge-bases through different tools. 
+The Eka MCP Server addresses these challenges by providing structured access to curated knowledge-bases through specialized tools:
 
-* **Medication Understanding**: This tool enables lookup on 5 lac+ branded drugs in India. The tool returns rich metadata such as generic composition, manufacturer etc to enrich the LLM response.
-* **Treatment Protocols** This tool provides contextual lookup on 180+ treatment protocol documents published by Indian healthcare institutions such as ICMR and RSSDI. 
+* **Medication Understanding**: Enables lookup across 500,000+ branded drugs available in India, returning comprehensive metadata including generic composition and manufacturer information to enhance LLM responses.
+* **Treatment Protocols**: Provides contextual access to over 180 treatment protocol documents published by authoritative Indian healthcare institutions such as ICMR and RSSDI.
 
 
 Key Benefits:
-* 🩺 Medical Accuracy: Ground AI responses in verified healthcare information
-* 🔄 Seamless Workflow: Access critical information without context switching
-* 🛡️ Reduced Hallucinations: Rely on curated medical data rather than AI's general knowledge
-* 🌐 Open Ecosystem: Part of the growing MCP open standard
+* 🩺 Medical Accuracy: Grounds AI responses in verified healthcare information
+* 🔄 Seamless Workflow: Provides critical information without requiring context switching
+* 🛡️ Reduced Hallucinations: Relies on curated medical data rather than AI's implicit general knowledge
+* 🌐 Open Ecosystem: Integrates with the growing MCP open standard
 
 # Get Started
 ## Get your developer key from eka.care
