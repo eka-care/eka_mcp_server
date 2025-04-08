@@ -7,12 +7,6 @@ MEDICATION_UNDERSTANDING_DESC = """
     generic name response from the tool unless otherwise specified
 """
 
-MEDICATION_INTERACTION_DESC = """
-   Check for interactions between multiple drugs.
-   Tool can check interactions between 2 or more drugs.
-   The tools returns the interaction category X, A, B, C, D and the interacting drug pairs
-"""
-
 SEARCH_PROTOCOLS_DESC = """
     Search the publicly available protocols and treatment guidelines for Indian patients.
     When the query is about any of these tags/conditions:
