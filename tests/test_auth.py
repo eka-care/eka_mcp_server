@@ -22,7 +22,7 @@ class TestAuthentication:
         mock_client.post.return_value.status_code = 200
         mock_client.post.return_value.json.return_value = {"access_token": "test", "refresh_token": "test"}
 
-        with patch('eka_mcp_server.eka_mcp.EkaMCP._get_client_token') as mock_refresh:
+        with patch('eka_mcp_server.eka_interface.EkaMCP._get_client_token') as mock_refresh:
             mock_refresh.return_value = {"test": "value"}
             with EkaMCP("https://api.eka.care", "id", "secret", mock_logger) as client:
                 mock_refresh.assert_called_once()
@@ -37,7 +37,7 @@ class TestAuthentication:
         mock_client.post.return_value.raise_for_status.return_value = False
 
         with patch('time.time', return_value=1000):
-            with patch('eka_mcp_server.eka_mcp.EkaMCP._get_client_token') as mock_token:
+            with patch('eka_mcp_server.eka_interface.EkaMCP._get_client_token') as mock_token:
                 with EkaMCP("https://api.eka.care", "id", "secret", mock_logger) as client:
                     result = client._get_refresh_token({
                         "access_token": "old_token",
@@ -49,7 +49,7 @@ class TestAuthentication:
                     assert result["expires_at"] == 4600  # 1000 + 3600
 
     def test_refresh_auth_token(self, mock_logger, mock_client):
-        with patch('eka_mcp_server.eka_mcp.EkaMCP._get_client_token') as mock_token:
+        with patch('eka_mcp_server.eka_interface.EkaMCP._get_client_token') as mock_token:
             mock_token.return_value = {
                 "access_token": "test_token",
                 "refresh_token": "refresh_token",

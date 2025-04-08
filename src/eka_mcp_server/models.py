@@ -19,11 +19,6 @@ class MedicationUnderstanding(BaseModel):
     )
 
 
-class MedicationInteraction(BaseModel):
-    drug_names: List[str] = Field(
-        None, description="List of drug names to check for interactions. Eg: ['Bencid tablet', 'Fluvir 75Mg capsule']"
-    )
-
 
 class Protocol(BaseModel):
     query: str = Field(
