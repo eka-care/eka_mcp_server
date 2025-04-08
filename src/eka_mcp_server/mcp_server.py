@@ -5,11 +5,11 @@ import mcp.types as types
 from mcp.server import Server
 
 from .constants import (
-    MEDICATION_UNDERSTANDING_DESC,
+    INDIAN_DRUG_DETAILS_AND_DISCOVERY,
     SEARCH_PROTOCOLS_DESC, PROTOCOL_PUBLISHERS_DESC
 )
 from .eka_interface import EkaMCP
-from .models import MedicationUnderstanding, QueryProtocols, ProtocolPublisher
+from .models import IndianDrugsDetailsAndDiscovery, QueryProtocols, ProtocolPublisher
 from .utils import download_image
 
 
@@ -28,15 +28,15 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
 
         return [
             types.Tool(
-                name="medication_understanding",
-                description=MEDICATION_UNDERSTANDING_DESC,
-                inputSchema=MedicationUnderstanding.model_json_schema(
+                name="indian_drug_details_and_discovery",
+                description=INDIAN_DRUG_DETAILS_AND_DISCOVERY,
+                inputSchema=IndianDrugsDetailsAndDiscovery.model_json_schema(
                     mode="serialization"
                 ),
             ),
             types.Tool(
                 name="search_protocols",
-                description=SEARCH_PROTOCOLS_DESC.format(', '.join(tags)),
+                description=SEARCH_PROTOCOLS_DESC.format(tags=', '.join(tags)),
                 inputSchema=QueryProtocols.model_json_schema(mode="serialization")
             ),
             types.Tool(
@@ -59,7 +59,7 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
 
         # Map tool names to handler functions for cleaner dispatching
         tool_handlers = {
-            "medication_understanding": _handle_medication_understanding,
+            "indian_drug_details_and_discovery": _handle_indian_drug_details_and_discovery,
             "search_protocols": _handle_search_protocols,
             "protocol_publishers": _handle_protocol_publishers
         }
@@ -70,7 +70,7 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
         return await tool_handlers[name](arguments)
 
     # Helper functions for tool handlers
-    async def _handle_medication_understanding(arguments):
+    async def _handle_indian_drug_details_and_discovery(arguments):
         drugs = eka_mcp.get_suggested_drugs(arguments)
         return [types.TextContent(type="text", text=json.dumps(drugs))]
 

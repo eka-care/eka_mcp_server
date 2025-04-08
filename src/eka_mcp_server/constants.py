@@ -1,4 +1,4 @@
-MEDICATION_UNDERSTANDING_DESC = """
+INDIAN_DRUG_DETAILS_AND_DISCOVERY = """
     Search repository of drugs based on drug brand name, generic composition, 
     or form, to get detailed information about the drug.
     Tool can provide information about a single drug, single or compound generics at a time.
@@ -9,8 +9,14 @@ MEDICATION_UNDERSTANDING_DESC = """
 
 SEARCH_PROTOCOLS_DESC = """
     Search the publicly available protocols and treatment guidelines for Indian patients.
+    Not for general knowledge or symptom-only queries.
+    
+    Key triggers for tool invocation:
+    - Strictly for clinical decision-making — diagnosis, evaluation, or management. 
+    - Questions about condition management protocols
+    
     When the query is about any of these tags/conditions:
-    {}
+    {tags}
 
     requires output from following tools - protocol_publishers 
 
@@ -33,13 +39,6 @@ SEARCH_PROTOCOLS_DESC = """
     - If the publisher list is empty, then do not invoke the tool
     3. Publisher preference selection
     - Once possible publishers are available, confirm which preferred publisher from the retrieved list should be queried
-
-    Key triggers for tool invocation:
-    - Questions about condition management protocols
-    - Screening recommendations
-    - Treatment guidelines
-    - Monitoring parameters
-    - Drug choices
 
     Query writing guidelines:
     - Incase the question is too broad, breakdown the query into multiple sub queries asking targeted questions
