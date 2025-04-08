@@ -22,7 +22,7 @@ Key Benefits:
 # Get Started
 ## Get your developer key from eka.care
 > [!NOTE]  
-> To obtain the `client-id`, and `client-token` reach out to us on support@eka.care
+> To obtain the `client-id`, and `client-token` reach out to us on ekaconnect@eka.care
 
 
 ## Installation and Setup for Claude Desktop
@@ -181,7 +181,8 @@ A: No, you need valid API credentials from eka.care to access the medical inform
 
 **Q: Is this service free?**
 
-A: While the MCP server code is open-source, access to eka.care's APIs required valid credentials.
+A: While the MCP server code is open-source, access to eka.care's APIs requires valid credentials.
+For the initial few days, we are offering free access to the APIs. However, we will be charging for the API usage in the future.
 
 **Q: Which LLMs support MCP natively?**
 
