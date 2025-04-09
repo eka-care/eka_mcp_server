@@ -29,7 +29,7 @@ Key Benefits:
 1. Install UV - https://docs.astral.sh/uv/getting-started/installation/#installation-methods
 2. Install Claude desktop application - https://claude.ai/download
 3. Locate the configuration file:
-   - **macOS**: `/Library/Application\ Support/Claude/claude_desktop_config.json`
+   - **macOS**: `~/Library/Application\ Support/Claude/claude_desktop_config.json`
    - **Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
    
    In case the file does not exist, create a new file named `claude_desktop_config.json` in the above directory.
