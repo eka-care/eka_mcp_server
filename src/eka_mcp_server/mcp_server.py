@@ -5,11 +5,11 @@ import mcp.types as types
 from mcp.server import Server
 
 from .constants import (
-    INDIAN_DRUG_DETAILS_AND_DISCOVERY,
-    SEARCH_PROTOCOLS_DESC, PROTOCOL_PUBLISHERS_DESC
+    INDIAN_BRANDED_DRUG_SEARCH,
+    INDIAN_TREATMENT_PROTOCOL_SEARCH, PROTOCOL_PUBLISHERS_DESC
 )
 from .eka_interface import EkaMCP
-from .models import IndianDrugsDetailsAndDiscovery, QueryProtocols, ProtocolPublisher
+from .models import IndianBrandedDrugSearch, QueryProtocols, ProtocolPublisher
 from .utils import download_image
 
 
@@ -28,15 +28,15 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
 
         return [
             types.Tool(
-                name="indian_drug_details_and_discovery",
-                description=INDIAN_DRUG_DETAILS_AND_DISCOVERY,
-                inputSchema=IndianDrugsDetailsAndDiscovery.model_json_schema(
+                name="indian_branded_drug_search",
+                description=INDIAN_BRANDED_DRUG_SEARCH,
+                inputSchema=IndianBrandedDrugSearch.model_json_schema(
                     mode="serialization"
                 ),
             ),
             types.Tool(
-                name="search_protocols",
-                description=SEARCH_PROTOCOLS_DESC.format(tags=', '.join(tags)),
+                name="indian_treatment_protocol_search",
+                description=INDIAN_TREATMENT_PROTOCOL_SEARCH.format(tags=', '.join(tags)),
                 inputSchema=QueryProtocols.model_json_schema(mode="serialization")
             ),
             types.Tool(
@@ -59,8 +59,8 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
 
         # Map tool names to handler functions for cleaner dispatching
         tool_handlers = {
-            "indian_drug_details_and_discovery": _handle_indian_drug_details_and_discovery,
-            "search_protocols": _handle_search_protocols,
+            "indian_branded_drug_search": _handle_indian_branded_drug_search,
+            "indian_treatment_protocol_search": _handle_indian_treatment_protocol_search,
             "protocol_publishers": _handle_protocol_publishers
         }
 
@@ -70,12 +70,12 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
         return await tool_handlers[name](arguments)
 
     # Helper functions for tool handlers
-    async def _handle_indian_drug_details_and_discovery(arguments):
+    async def _handle_indian_branded_drug_search(arguments):
         drugs = eka_mcp.get_suggested_drugs(arguments)
         return [types.TextContent(type="text", text=json.dumps(drugs))]
 
 
-    async def _handle_search_protocols(arguments):
+    async def _handle_indian_treatment_protocol_search(arguments):
         protocols = eka_mcp.get_protocols(arguments)
         output = []
         for protocol in protocols:

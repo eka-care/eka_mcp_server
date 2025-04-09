@@ -108,31 +108,35 @@ In your config, update the command to the full path of the `uvx` executable. For
   }
 }
 ```
-
-
+### Latest version of eka_mcp_server is not being picked?
+Run the command below in case the latest version is not being picked.
+This cleans up the local cache and fetches the latest version.
+```
+uv cache clean eka_mcp_server
+```
 
 
 # Tools
 > EKA MCP server tools are curated by the in-house doctors at eka.care and have been validated on an internal set of questionnaire 
 
 ## Medications tool suite
-### Indian Drug discovery and details 
+### Indian branded drug search 
 <details>
 <summary>Tool definition here</summary>
-https://github.com/eka-care/eka_mcp_server/blob/c59af54ee4f323c2a27b62df06d498e006c60e7f/src/eka_mcp_server/constants.py#L1-L8
+https://github.com/eka-care/eka_mcp_server/blob/9520c346e19c6ccafe80ca770dea9b824871ef1d/src/eka_mcp_server/constants.py#L1
 </details>
 
 Access comprehensive information about drugs from a corpus of drugs based on the drug name or generic composition and filtered further through the drug form and volume.
 
-![Indian Drug Discovery and Detaails](assets/indian_drug_details_and_discovery.png)
+![Indian branded drug search](assets/indian_branded_drug_search.png)
 
 APIs required for this tool
    - https://developer.eka.care/api-reference/eka_mcp/medications/search 
 
-## Treatment Protocols
+## Indian treatment protocol search
 <details>
 <summary>Tool definition here</summary>
-https://github.com/eka-care/eka_mcp_server/blob/14ea2d17ac4d93e619583a4b719a925180d8ff7d/src/eka_assist/mcp_server.py#L128-L174
+https://github.com/eka-care/eka_mcp_server/blob/9520c346e19c6ccafe80ca770dea9b824871ef1d/src/eka_mcp_server/constants.py#L10
 </details>
 
 Standardized guidelines, procedures, and decision pathways for healthcare professionals are published by medical bodies.
@@ -153,9 +157,7 @@ APIs required for this tool
 2. http://developer.eka.care/api-reference/eka_mcp/protocols/publishers_by_tag
 3. http://developer.eka.care/api-reference/eka_mcp/protocols/search
 
-![Tag Confirmation](assets/treatment_tags.png)
-![Publisher Confirmation](assets/protocol_publishers.png)
-![Treatment Protocol](assets/protocol_search.png)
+![Indian treatment protocol search](assets/indian_treatment_protocol_search.png)
 
 ## Accuracy Disclaimer
 

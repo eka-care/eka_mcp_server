@@ -1,4 +1,4 @@
-INDIAN_DRUG_DETAILS_AND_DISCOVERY = """
+INDIAN_BRANDED_DRUG_SEARCH = """
     Search repository of drugs based on drug brand name, generic composition, 
     or form, to get detailed information about the drug.
     Tool can provide information about a single drug, single or compound generics at a time.
@@ -7,7 +7,7 @@ INDIAN_DRUG_DETAILS_AND_DISCOVERY = """
     generic name response from the tool unless otherwise specified
 """
 
-SEARCH_PROTOCOLS_DESC = """
+INDIAN_TREATMENT_PROTOCOL_SEARCH = """
     Search the publicly available protocols and treatment guidelines for Indian patients.
     Not for general knowledge or symptom-only queries.
     

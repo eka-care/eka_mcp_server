@@ -3,7 +3,7 @@ from typing import List, Optional
 from pydantic import BaseModel, Field
 
 
-class IndianDrugsDetailsAndDiscovery(BaseModel):
+class IndianBrandedDrugSearch(BaseModel):
     drug_name: Optional[str] = Field(
         None, description="The segmented branded name of the medicine like Glim 1mg"
     )

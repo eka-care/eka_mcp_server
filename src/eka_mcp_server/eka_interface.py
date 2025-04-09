@@ -1,7 +1,6 @@
-import sys
 import time
 from logging import Logger
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 
 import httpx
 import jwt
