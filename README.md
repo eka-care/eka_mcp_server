@@ -9,8 +9,8 @@ Eka Care's Model Context Protocol (MCP) server facilitates interaction with medi
 
 The Eka MCP Server addresses these challenges by providing structured access to curated knowledge-bases through specialized tools:
 
-* **Indian Drug Discovery and Details**: Enables lookup across 500,000+ branded drugs available in India, returning comprehensive metadata including generic composition and manufacturer information to enhance LLM responses.
-* **Treatment Protocols**: Provides contextual access to over 180 treatment protocol documents published by authoritative Indian healthcare institutions such as ICMR and RSSDI.
+* **Indian Branded Drug Search**: Enables lookup across 500,000+ branded drugs available in India, returning comprehensive metadata including generic composition and manufacturer information to enhance LLM responses.
+* **Indian Treatment Protocol Search**: Provides contextual access to over 180 treatment protocol documents published by authoritative Indian healthcare institutions such as ICMR and RSSDI.
 
 
 Key Benefits:
