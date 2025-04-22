@@ -82,7 +82,7 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
             url = protocol.get("url")
             try:
                 data = download_image(url)
-                output.append(types.ImageContent(type="image", data=data, mimeType="image/jpeg"))
+                output.append(types.EmbeddedResource(resource=types.BlobResourceContents(uri=url, mimeType="image/jpeg", blob=data), type="resource"))
             except Exception as err:
                 logger.error(f"Failed to download protocol url: {protocol.get('url')}, with error: {err}")
         return output
