@@ -83,11 +83,13 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
             try:
                 data = download_image(url)
                 output.append(
-                    types.EmbeddedResource(
-                        resource=types.BlobResourceContents(uri=url, mimeType="image/jpeg", blob=data),
-                        type="resource",
+                    types.ImageContent(
+                        type="image",
+                        data=data,
+                        mimeType="image/jpeg",
 
                         # TODO: this can be used by LLM to generate a better response
+                        url=url,
                         publisher=protocol.get("author"),
                         publication_year=protocol.get("publication_year"),
                         source_url=protocol.get("source_url"),
