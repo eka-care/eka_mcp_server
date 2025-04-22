@@ -82,7 +82,19 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
             url = protocol.get("url")
             try:
                 data = download_image(url)
-                output.append(types.ImageContent(type="image", data=data, mimeType="image/jpeg"))
+                output.append(
+                    types.ImageContent(
+                        type="image",
+                        data=data,
+                        mimeType="image/jpeg",
+
+                        # TODO: this can be used by LLM to generate a better response
+                        url=url,
+                        publisher=protocol.get("author"),
+                        publication_year=protocol.get("publication_year"),
+                        source_url=protocol.get("source_url"),
+                    )
+                )
             except Exception as err:
                 logger.error(f"Failed to download protocol url: {protocol.get('url')}, with error: {err}")
         return output
