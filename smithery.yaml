@@ -23,11 +23,15 @@ startCommand:
     # A function that produces the CLI command to start the MCP on stdio.
     |-
     (config) => ({ 
-      command: 'uvx', 
+      command: 'run_eka_mcp_server', 
       args: [
+        'uvx',
         'eka_mcp_server',
-        '--eka-api-host', config.eka_api_host,
-        '--client-id', config.client_id,
-        '--client-secret', config.client_secret
+        '--eka-api-host', 
+        config.eka_api_host,
+        '--client-id', 
+        config.client_id,
+        '--client-secret', 
+        config.client_secret
       ]
     })

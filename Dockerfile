@@ -9,4 +9,4 @@ FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 # RUN uv pip install -r pyproject.toml
 
 # Define the default command
-CMD ["uvx", "eka_mcp_server"]
+CMD ["run_eka_mcp_server"]
