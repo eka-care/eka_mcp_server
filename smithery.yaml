@@ -22,22 +22,19 @@ startCommand:
   commandFunction:
     # A function that produces the CLI command to start the MCP on stdio.
     |-
-    (config) => { 
-        const command = {
-          command: 'docker', 
-          args: [
-            'run',
-            '-i',
-            '--rm',
-            '--eka-api-host',
-            '${config.eka_api_host}',
-            '--client-id',
-            '${config.client_id}',
-            '--client-secret',
-            '${config.client_secret}',
-          ]
-        }
-        console.log("Generated Command:", command);
-        return command;
-    }
-  }
+    (config) => ({ 
+      command: 'docker', 
+      args: [
+        'run',
+        '-i',
+        '--rm',
+        'uvx',
+        'eka_mcp_server'
+        '--eka-api-host',
+        '${config.eka_api_host}',
+        '--client-id',
+        '${config.client_id}',
+        '--client-secret',
+        '${config.client_secret}',
+      ]
+    })
