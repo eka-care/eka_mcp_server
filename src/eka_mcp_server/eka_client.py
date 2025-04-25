@@ -172,6 +172,8 @@ class EkaCareClient:
 
         headers = {"Content-Type": "application/json"}
 
+        print("Key values pair that are provided: ", kwargs)
+
         auth_token_passed = kwargs.pop("auth")
         jwt_payload = kwargs.pop("jwt-payload")
         if jwt_payload:
