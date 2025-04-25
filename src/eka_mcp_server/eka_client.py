@@ -143,10 +143,6 @@ class EkaCareClient:
         Updates self.auth_creds with new credentials if the current token is expired.
         """
 
-        # If access_token is already set, return it
-        if self.access_token:
-            return self.access_token
-
         current_time = int(time.time())
         exp_at = self.auth_creds["jwt-payload"].get("exp", 0)
         if current_time >= exp_at - 120:
@@ -174,8 +170,8 @@ class EkaCareClient:
 
         print("Key values pair that are provided: ", kwargs)
 
-        auth_token_passed = kwargs.pop("auth")
-        jwt_payload = kwargs.pop("jwt-payload")
+        auth_token_passed = kwargs.pop("auth", None)
+        jwt_payload = kwargs.pop("jwt-payload", None)
         if jwt_payload:
             headers['jwt-payload'] = jwt_payload
         if auth_token_passed:
