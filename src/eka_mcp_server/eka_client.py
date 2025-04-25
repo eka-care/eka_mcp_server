@@ -11,8 +11,15 @@ class RefreshTokenError(Exception):
 class CreateTokenError(Exception):
     pass
 
-class EkaMCP:
-    def __init__(self, eka_api_host: str, client_id: str, client_secret: str, logger: Logger):
+class EkaCareClient:
+    def __init__(
+            self,
+            eka_api_host: str,
+            client_id: str,
+            client_secret: str,
+            access_token: str,
+            logger: Logger
+    ):
         """
         Initialize the EkaAssist client with connection pooling.
 
@@ -20,6 +27,7 @@ class EkaMCP:
             eka_api_host: Base URL for the API
             client_id: Client ID
             client_secret: Client client_secret for authentication
+            access_token: Access token for authentication
             logger: Logger to log information
         """
 
@@ -36,6 +44,7 @@ class EkaMCP:
         self.api_url = eka_api_host
         self.client_id = client_id
         self.client_secret = client_secret
+        self.access_token = access_token
         self.auth_creds = self._get_auth_creds()
 
     def close(self):
@@ -60,6 +69,11 @@ class EkaMCP:
             dict: A dictionary containing the final authentication credentials,
                   typically including access_token, refresh_token, and expiry information.
         """
+
+        # If access_token is already set, return it
+        if self.access_token:
+            return {}
+
         auth_creds = self._get_client_token()
         auth_creds = self._get_refresh_token(auth_creds)
         token = auth_creds["access_token"]
@@ -132,10 +146,17 @@ class EkaMCP:
         Validate the current authentication token.
         Updates self.auth_creds with new credentials if the current token is expired.
         """
+
+        # If access_token is already set, return it
+        if self.access_token:
+            return self.access_token
+
         current_time = int(time.time())
         exp_at = self.auth_creds["jwt-payload"].get("exp", 0)
         if current_time >= exp_at - 120:
             self.auth_creds = self._get_auth_creds()
+
+        return self.auth_creds['access_token']
 
     def _make_request(self, method: str, endpoint: str, **kwargs):
         """
@@ -153,9 +174,9 @@ class EkaMCP:
             httpx.HTTPStatusError: If the request fails
         """
 
-        self._validate_and_gen_token()
+        token = self._validate_and_gen_token()
         headers = {
-            "Authorization": f"Bearer {self.auth_creds['access_token']}",
+            "Authorization": f"Bearer {token}",
             "Content-Type": "application/json"
         }
         url = f"{self.api_url}/eka-mcp/{endpoint}"

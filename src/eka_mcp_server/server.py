@@ -3,6 +3,7 @@ import argparse
 import logging
 
 import mcp.server.stdio
+from eka_mcp_server.eka_client import EkaCareClient
 from mcp.server import NotificationOptions
 from mcp.server.models import InitializationOptions
 
@@ -30,15 +31,17 @@ async def main() -> None:
     logger.info("Validating server arguments..")
     parser = argparse.ArgumentParser(description='Eka MCP server. Documentation available at - https://github.com/eka-care/eka_mcp_server/blob/main/README.md')
     parser.add_argument('--eka-api-host', required=True, help='EKA MCP API Host')
-    parser.add_argument('--client-id', required=True, help='EKA MCP API Client ID')
-    parser.add_argument('--client-secret', required=True, help='EKA MCP API token')
+    parser.add_argument('--client-id', required=False, help='EKA MCP API Client ID')
+    parser.add_argument('--client-secret', required=False, help='EKA MCP Client Secret')
+    parser.add_argument('--access-token', required=False, help='EKA MCP Access token')
 
     args = parser.parse_args()
     # Initialize the EkaMCP client
-    eka_mcp = EkaMCP(
+    eka_mcp = EkaCareClient(
         eka_api_host=args.eka_api_host,
         client_id=args.client_id,
         client_secret=args.client_secret,
+        access_token=args.access_token,
         logger=logger
     )
 

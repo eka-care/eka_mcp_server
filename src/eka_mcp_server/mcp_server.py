@@ -8,12 +8,12 @@ from .constants import (
     INDIAN_BRANDED_DRUG_SEARCH,
     INDIAN_TREATMENT_PROTOCOL_SEARCH, PROTOCOL_PUBLISHERS_DESC
 )
-from .eka_interface import EkaMCP
+from .eka_client import EkaCareClient
 from .models import IndianBrandedDrugSearch, QueryProtocols, ProtocolPublisher
 from .utils import download_image
 
 
-def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
+def initialize_mcp_server(client: EkaCareClient, logger: Logger):
     # Store notes as a simple key-value dict to demonstrate state management
     server = Server("eka-mcp-server")
 
@@ -24,7 +24,7 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
         Each tool specifies its arguments using JSON Schema validation.
         """
         logger.info("Listing tools now")
-        tags = eka_mcp.get_supported_tags()
+        tags = client.get_supported_tags()
 
         return [
             types.Tool(
@@ -71,12 +71,12 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
 
     # Helper functions for tool handlers
     async def _handle_indian_branded_drug_search(arguments):
-        drugs = eka_mcp.get_suggested_drugs(arguments)
+        drugs = client.get_suggested_drugs(arguments)
         return [types.TextContent(type="text", text=json.dumps(drugs))]
 
 
     async def _handle_indian_treatment_protocol_search(arguments):
-        protocols = eka_mcp.get_protocols(arguments)
+        protocols = client.get_protocols(arguments)
         output = []
         for protocol in protocols:
             url = protocol.get("url")
@@ -100,7 +100,7 @@ def initialize_mcp_server(eka_mcp: EkaMCP, logger: Logger):
         return output
 
     async def _handle_protocol_publishers(arguments):
-        publishers = eka_mcp.get_protocol_publisher(arguments)
+        publishers = client.get_protocol_publisher(arguments)
         return [types.TextContent(type="text", text=json.dumps(publishers))]
 
     return server
