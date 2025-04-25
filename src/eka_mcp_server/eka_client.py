@@ -17,7 +17,6 @@ class EkaCareClient:
             eka_api_host: str,
             client_id: str,
             client_secret: str,
-            access_token: str,
             logger: Logger
     ):
         """
@@ -27,7 +26,6 @@ class EkaCareClient:
             eka_api_host: Base URL for the API
             client_id: Client ID
             client_secret: Client client_secret for authentication
-            access_token: Access token for authentication
             logger: Logger to log information
         """
 
@@ -44,7 +42,6 @@ class EkaCareClient:
         self.api_url = eka_api_host
         self.client_id = client_id
         self.client_secret = client_secret
-        self.access_token = access_token
         self.auth_creds = self._get_auth_creds()
 
     def close(self):
@@ -70,8 +67,7 @@ class EkaCareClient:
                   typically including access_token, refresh_token, and expiry information.
         """
 
-        # If access_token is already set, return it
-        if self.access_token:
+        if not self.client_id or not self.client_secret:
             return {}
 
         auth_creds = self._get_client_token()
@@ -174,11 +170,18 @@ class EkaCareClient:
             httpx.HTTPStatusError: If the request fails
         """
 
-        token = self._validate_and_gen_token()
-        headers = {
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json"
-        }
+        headers = {"Content-Type": "application/json"}
+
+        auth_token_passed = kwargs.pop("auth")
+        jwt_payload = kwargs.pop("jwt-payload")
+        if jwt_payload:
+            headers['jwt-payload'] = jwt_payload
+        if auth_token_passed:
+            headers["Authorization"] = f"Bearer {auth_token_passed}"
+        else:
+            self._validate_and_gen_token()
+            headers["Authorization"] = f"Bearer {self.auth_creds['access_token']}"
+
         url = f"{self.api_url}/eka-mcp/{endpoint}"
         try:
             if method.lower() == "get":

@@ -33,7 +33,6 @@ async def main() -> None:
     parser.add_argument('--eka-api-host', required=True, help='EKA MCP API Host')
     parser.add_argument('--client-id', required=False, help='EKA MCP API Client ID')
     parser.add_argument('--client-secret', required=False, help='EKA MCP Client Secret')
-    parser.add_argument('--access-token', required=False, help='EKA MCP Access token')
 
     args = parser.parse_args()
     # Initialize the EkaMCP client
@@ -41,7 +40,6 @@ async def main() -> None:
         eka_api_host=args.eka_api_host,
         client_id=args.client_id,
         client_secret=args.client_secret,
-        access_token=args.access_token,
         logger=logger
     )
 
