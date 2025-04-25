@@ -7,7 +7,7 @@ from eka_mcp_server.eka_client import EkaCareClient
 from mcp.server import NotificationOptions
 from mcp.server.models import InitializationOptions
 
-from .eka_interface import EkaMCP
+from .eka_client import EkaCareClient
 from .mcp_server import initialize_mcp_server
 
 
