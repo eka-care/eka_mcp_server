@@ -230,7 +230,11 @@ class EkaCareClient:
         Returns:
             List of tags/condition names as strings
         """
-        tags = self.get_all_supported_tags()
+
+        tags = {}
+        resp = self.client.get("https://lucid.eka.care/protocols/tags/data.json")
+        if resp.status_code == 200:
+            tags = resp.json()
 
         supported_tags = []
         for tag in tags:
