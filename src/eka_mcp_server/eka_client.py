@@ -198,15 +198,7 @@ class EkaCareClient:
             self.logger.error(f"Unexpected error during API request: {e}")
             raise
 
-    # Protocol endpoints
-    def get_all_supported_tags(self):
-        """Gets a list of supported medical conditions from the API."""
-        return self._make_request("get", "protocols/v1/tags")
-
-    def get_all_supported_publishers(self):
-        """Gets a list of publishers from the API."""
-        return self._make_request("get", "protocols/v1/publishers")
-
+    #  Protocol endpoints
     def get_protocols(self, arguments: Dict[str, Any]):
         """Get a list of protocols from the API."""
         return self._make_request("post", "protocols/v1/search", json=arguments)
