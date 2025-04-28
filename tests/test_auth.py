@@ -2,7 +2,7 @@ import pytest
 import time
 from unittest.mock import patch, MagicMock
 
-from eka_mcp_server.eka_interface import EkaMCP
+from eka_mcp_server.eka_client import EkaCareClient
 
 
 @pytest.fixture
@@ -25,9 +25,9 @@ class TestAuthentication:
             "refresh_token": "c1d5f87725084e69abe00731bb696758"
         }
 
-        with patch('eka_mcp_server.eka_interface.EkaMCP._get_client_token') as mock_refresh:
+        with patch('eka_mcp_server.eka_client.EkaCareClient._get_client_token') as mock_refresh:
             mock_refresh.return_value = {"access_token": "value", "refresh_token": "value"}
-            with EkaMCP("https://api.eka.care", "id", "secret", mock_logger) as client:
+            with EkaCareClient("https://api.eka.care", "id", "secret", mock_logger) as client:
                 mock_refresh.assert_called_once()
 
     def test_get_refresh_token(self, mock_logger, mock_client):
@@ -38,8 +38,8 @@ class TestAuthentication:
         }
 
         with patch('time.time', return_value=1000):
-            with patch('eka_mcp_server.eka_interface.EkaMCP._get_client_token') as mock_token:
-                with EkaMCP("https://api.eka.care", "id", "secret", mock_logger) as client:
+            with patch('eka_mcp_server.eka_client.EkaCareClient._get_client_token') as mock_token:
+                with EkaCareClient("https://api.eka.care", "id", "secret", mock_logger) as client:
                     result = client._get_refresh_token({
                         "access_token": "old_token",
                         "refresh_token": "old_refresh"

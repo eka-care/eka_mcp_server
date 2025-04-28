@@ -11,8 +11,14 @@ class RefreshTokenError(Exception):
 class CreateTokenError(Exception):
     pass
 
-class EkaMCP:
-    def __init__(self, eka_api_host: str, client_id: str, client_secret: str, logger: Logger):
+class EkaCareClient:
+    def __init__(
+            self,
+            eka_api_host: str,
+            client_id: str,
+            client_secret: str,
+            logger: Logger
+    ):
         """
         Initialize the EkaAssist client with connection pooling.
 
@@ -60,6 +66,10 @@ class EkaMCP:
             dict: A dictionary containing the final authentication credentials,
                   typically including access_token, refresh_token, and expiry information.
         """
+
+        if not self.client_id or not self.client_secret:
+            return {}
+
         auth_creds = self._get_client_token()
         auth_creds = self._get_refresh_token(auth_creds)
         token = auth_creds["access_token"]
@@ -132,10 +142,13 @@ class EkaMCP:
         Validate the current authentication token.
         Updates self.auth_creds with new credentials if the current token is expired.
         """
+
         current_time = int(time.time())
         exp_at = self.auth_creds["jwt-payload"].get("exp", 0)
         if current_time >= exp_at - 120:
             self.auth_creds = self._get_auth_creds()
+
+        return self.auth_creds['access_token']
 
     def _make_request(self, method: str, endpoint: str, **kwargs):
         """
@@ -153,11 +166,18 @@ class EkaMCP:
             httpx.HTTPStatusError: If the request fails
         """
 
-        self._validate_and_gen_token()
-        headers = {
-            "Authorization": f"Bearer {self.auth_creds['access_token']}",
-            "Content-Type": "application/json"
-        }
+        headers = {"Content-Type": "application/json"}
+
+        auth_token_passed = kwargs.pop("auth", None)
+        jwt_payload = kwargs.pop("jwt-payload", None)
+        if jwt_payload:
+            headers['jwt-payload'] = jwt_payload
+        if auth_token_passed:
+            headers["Authorization"] = f"Bearer {auth_token_passed}"
+        else:
+            self._validate_and_gen_token()
+            headers["Authorization"] = f"Bearer {self.auth_creds['access_token']}"
+
         url = f"{self.api_url}/eka-mcp/{endpoint}"
         try:
             if method.lower() == "get":
@@ -176,15 +196,7 @@ class EkaMCP:
             self.logger.error(f"Unexpected error during API request: {e}")
             raise
 
-    # Protocol endpoints
-    def get_all_supported_tags(self):
-        """Gets a list of supported medical conditions from the API."""
-        return self._make_request("get", "protocols/v1/tags")
-
-    def get_all_supported_publishers(self):
-        """Gets a list of publishers from the API."""
-        return self._make_request("get", "protocols/v1/publishers")
-
+    #  Protocol endpoints
     def get_protocols(self, arguments: Dict[str, Any]):
         """Get a list of protocols from the API."""
         return self._make_request("post", "protocols/v1/search", json=arguments)
@@ -206,7 +218,11 @@ class EkaMCP:
         Returns:
             List of tags/condition names as strings
         """
-        tags = self.get_all_supported_tags()
+
+        tags = {}
+        resp = self.client.get("https://lucid.eka.care/protocols/tags/data.json")
+        if resp.status_code == 200:
+            tags = resp.json()
 
         supported_tags = []
         for tag in tags:
