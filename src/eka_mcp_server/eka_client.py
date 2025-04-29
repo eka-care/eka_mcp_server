@@ -150,6 +150,19 @@ class EkaCareClient:
 
         return self.auth_creds['access_token']
 
+    @staticmethod
+    def _extract_key_value(key, **kwargs):
+        key_value = ""
+        for arg_type in ["params", "json"]:
+            if arg_type in kwargs:
+                params = kwargs[arg_type]
+                if key in params:
+                    key_value = params[key]
+                    del params[key]
+                    break
+
+        return key_value
+
     def _make_request(self, method: str, endpoint: str, **kwargs):
         """
         Helper method to make HTTP requests and handle errors consistently.
@@ -168,11 +181,12 @@ class EkaCareClient:
 
         headers = {"Content-Type": "application/json"}
 
-        auth_token_passed = kwargs.pop("auth", None)
-        jwt_payload = kwargs.pop("jwt-payload", None)
+        auth_token_passed = self._extract_key_value("auth", **kwargs)
+        jwt_payload = self._extract_key_value("jwt-payload", **kwargs)
+
         if jwt_payload:
             headers['jwt-payload'] = jwt_payload
-        if auth_token_passed:
+        elif auth_token_passed:
             headers["Authorization"] = f"Bearer {auth_token_passed}"
         else:
             self._validate_and_gen_token()
