@@ -3,13 +3,15 @@ from logging import Logger
 
 import mcp.types as types
 from mcp.server import Server
+from typing import List
 
 from .constants import (
     INDIAN_BRANDED_DRUG_SEARCH,
-    INDIAN_TREATMENT_PROTOCOL_SEARCH, PROTOCOL_PUBLISHERS_DESC
+    INDIAN_TREATMENT_PROTOCOL_SEARCH, PROTOCOL_PUBLISHERS_DESC,
+    DISEASE_LINKER_DESC
 )
 from .eka_client import EkaCareClient
-from .models import IndianBrandedDrugSearch, QueryProtocols, ProtocolPublisher
+from .models import IndianBrandedDrugSearch, QueryProtocols, ProtocolPublisher, DiseaseLinker
 from .utils import download_image
 
 
@@ -27,6 +29,11 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
         tags = client.get_supported_tags()
 
         return [
+            types.Tool(
+                name="disease_linker",
+                description=DISEASE_LINKER_DESC,
+                inputSchema=DiseaseLinker.model_json_schema(mode="serialization"),
+            ),
             types.Tool(
                 name="indian_branded_drug_search",
                 description=INDIAN_BRANDED_DRUG_SEARCH,
@@ -61,7 +68,8 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
         tool_handlers = {
             "indian_branded_drug_search": _handle_indian_branded_drug_search,
             "indian_treatment_protocol_search": _handle_indian_treatment_protocol_search,
-            "protocol_publishers": _handle_protocol_publishers
+            "protocol_publishers": _handle_protocol_publishers,
+            "disease_linker" : _handle_disease_linker
         }
 
         if name not in tool_handlers:
@@ -103,4 +111,8 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
         publishers = client.get_protocol_publisher(arguments)
         return [types.TextContent(type="text", text=json.dumps(publishers))]
 
+    async def _handle_disease_linker(arguments: List[str]):
+        response = client.get_disease_linker(arguments)
+        return [types.TextContent(type="text", text=json.dumps(response))]
+    
     return server

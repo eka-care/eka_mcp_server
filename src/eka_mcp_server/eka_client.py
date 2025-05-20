@@ -1,9 +1,12 @@
 import time
 from logging import Logger
-from typing import Dict, Any
+from typing import Dict, Any, List
+from urllib.parse import quote_plus
 
 import httpx
 import jwt
+
+import json
 
 class RefreshTokenError(Exception):
     pass
@@ -210,6 +213,17 @@ class EkaCareClient:
             self.logger.error(f"Unexpected error during API request: {e}")
             raise
 
+    # Disease Linker
+    def get_disease_linker(self, arguments: List[str]) -> List[Dict[str, Any]]:
+        """Gets a list of all diseases matching with given name from the API."""
+        query_list = arguments.get("query", [])
+
+        payload = json.dumps(query_list)
+        encoded = quote_plus(payload)
+
+        endpoint = "linking/v1/snomed?text_to_link=%s" % encoded
+        return self._make_request("get", endpoint)
+            
     #  Protocol endpoints
     def get_protocols(self, arguments: Dict[str, Any]):
         """Get a list of protocols from the API."""
