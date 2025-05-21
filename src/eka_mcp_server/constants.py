@@ -65,13 +65,7 @@ PROTOCOL_PUBLISHERS_DESC = """
 """
 
 DISEASE_LINKER_DESC = """
-Your sole task is to read a doctor's free‑text sentence or short note and return every distinct disease or medical condition explicitly mentioned.
-
-TASK
-
-Input: One sentence or short paragraph of clinical free text.
-
-Return nothing else—no codes, headings, comments, or explanatory text.
+Your task is to read a doctor's free‑text sentence or short note and return every distinct disease or medical condition explicitly mentioned.
 
 STRICT GUIDELINES
 
