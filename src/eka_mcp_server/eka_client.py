@@ -221,7 +221,7 @@ class EkaCareClient:
         payload = json.dumps(query_list)
         encoded = quote_plus(payload)
 
-        endpoint = "linking/v1/snomed?text_to_link=%s" % encoded
+        endpoint = f"linking/v1/snomed?text_to_link={encoded}"
         return self._make_request("get", endpoint)
             
     #  Protocol endpoints
