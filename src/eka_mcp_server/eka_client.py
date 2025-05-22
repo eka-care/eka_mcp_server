@@ -213,7 +213,7 @@ class EkaCareClient:
             self.logger.error(f"Unexpected error during API request: {e}")
             raise
 
-    # Disease Linker
+    # Snomed Linker
     def get_snomed_linker(self, arguments: List[str]) -> List[Dict[str, Any]]:
         """Gets a list of all diseases matching with given name from the API."""
         query_list = arguments.get("query", [])
