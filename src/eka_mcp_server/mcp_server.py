@@ -112,7 +112,7 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
         return [types.TextContent(type="text", text=json.dumps(publishers))]
 
     async def _handle_disease_linker(arguments: List[str]):
-        response = client.get_disease_linker(arguments)
+        response = client.get_snomed_linker(arguments)
         return [types.TextContent(type="text", text=json.dumps(response))]
     
     return server
