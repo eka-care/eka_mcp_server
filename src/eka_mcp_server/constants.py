@@ -65,18 +65,17 @@ PROTOCOL_PUBLISHERS_DESC = """
 """
 
 SNOMED_LINKER_DESC = """
-Your task is to read a doctor's free‑text sentence or short note and return every distinct disease or medical condition explicitly mentioned.
+    Extract every distinct disease or medical condition explicitly mentioned in a doctor’s free-text sentence or short note.
 
-STRICT GUIDELINES
+    STRICT GUIDELINES
+    Segmentation
+    - Strip away dates, durations, pronouns, conjunctions, and filler words.
+    - Retain only the raw disease/condition phrases exactly as they appear.
 
-Segmentation
-Strip away dates, durations, pronouns, conjunctions, and filler words.
-Keep only the raw disease/condition phrases exactly as they appear in the input.
+    Deduplication
+    - If the same disease/condition (or its exact synonym) appears multiple times, list it only once.
 
-Deduplication
-If the same disease/condition (or its synonym) appears more than once, list it only once in the output.
-
-Strict Input Matching
-Do NOT infer, translate, or re‑phrase. No clinical interpretation.
-
+    Strict Input Matching
+    - Do NOT infer, translate, re-phrase, or interpret clinically.
+    - Do NOT map to codes or preferred terms—output only the original phrases.
 """
