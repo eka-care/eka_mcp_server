@@ -3,13 +3,15 @@ from logging import Logger
 
 import mcp.types as types
 from mcp.server import Server
+from typing import List
 
 from .constants import (
     INDIAN_BRANDED_DRUG_SEARCH,
-    INDIAN_TREATMENT_PROTOCOL_SEARCH, PROTOCOL_PUBLISHERS_DESC
+    INDIAN_TREATMENT_PROTOCOL_SEARCH, PROTOCOL_PUBLISHERS_DESC,
+    SNOMED_LINKER_DESC, PHARMACOLOGY_SEARCH_DESC
 )
 from .eka_client import EkaCareClient
-from .models import IndianBrandedDrugSearch, QueryProtocols, ProtocolPublisher
+from .models import IndianBrandedDrugSearch, QueryProtocols, ProtocolPublisher, SnomedLinker, PharmacologySearch
 from .utils import download_image
 
 
@@ -28,6 +30,11 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
 
         return [
             types.Tool(
+                name="snomed_linker",
+                description=SNOMED_LINKER_DESC,
+                inputSchema=SnomedLinker.model_json_schema(mode="serialization"),
+            ),
+            types.Tool(
                 name="indian_branded_drug_search",
                 description=INDIAN_BRANDED_DRUG_SEARCH,
                 inputSchema=IndianBrandedDrugSearch.model_json_schema(
@@ -43,6 +50,11 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
                 name="protocol_publishers",
                 description=PROTOCOL_PUBLISHERS_DESC.format(', '.join(tags)),
                 inputSchema=ProtocolPublisher.model_json_schema(mode="serialization"),
+            ),
+            types.Tool(
+                name="pharmacology_search",
+                description=PHARMACOLOGY_SEARCH_DESC.format(', '.join(tags)),
+                inputSchema=PharmacologySearch.model_json_schema(mode="serialization"),
             )
         ]
 
@@ -61,7 +73,9 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
         tool_handlers = {
             "indian_branded_drug_search": _handle_indian_branded_drug_search,
             "indian_treatment_protocol_search": _handle_indian_treatment_protocol_search,
-            "protocol_publishers": _handle_protocol_publishers
+            "protocol_publishers": _handle_protocol_publishers,
+            "snomed_linker" : _handle_snomed_linker,
+            "pharmacology_search": _handle_pharmacology_search
         }
 
         if name not in tool_handlers:
@@ -103,4 +117,12 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
         publishers = client.get_protocol_publisher(arguments)
         return [types.TextContent(type="text", text=json.dumps(publishers))]
 
+    async def _handle_snomed_linker(arguments: List[str]):
+        response = client.get_snomed_linker(arguments)
+        return [types.TextContent(type="text", text=json.dumps(response))]
+    
+    async def _handle_pharmacology_search(arguments):
+        response = client.get_pharmacology_search(arguments)
+        return [types.TextContent(type="text", text=json.dumps(response))]
+    
     return server
