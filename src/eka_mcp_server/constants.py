@@ -65,18 +65,27 @@ PROTOCOL_PUBLISHERS_DESC = """
 """
 
 SNOMED_LINKER_DESC = """
-Your task is to read a doctor's free‑text sentence or short note and return every distinct disease or medical condition explicitly mentioned.
+Extract every distinct disease or medical condition explicitly mentioned in a doctor’s free-text sentence or short note.
 
-STRICT GUIDELINES
+    STRICT GUIDELINES
+    Segmentation
+    - Strip away dates, durations, pronouns, conjunctions, and filler words.
+    - Retain only the raw disease/condition phrases exactly as they appear.
 
-Segmentation
-Strip away dates, durations, pronouns, conjunctions, and filler words.
-Keep only the raw disease/condition phrases exactly as they appear in the input.
+    Deduplication
+    - If the same disease/condition (or its exact synonym) appears multiple times, list it only once.
 
-Deduplication
-If the same disease/condition (or its synonym) appears more than once, list it only once in the output.
+    Strict Input Matching
+    - Do NOT infer, translate, re-phrase, or interpret clinically.
+    - Do NOT map to codes or preferred terms—output only the original phrases.
+"""
 
-Strict Input Matching
-Do NOT infer, translate, or re‑phrase. No clinical interpretation.
+PHARMACOLOGY_SEARCH_DESC = """
+Search through the generic details of a drug from the National Formulary of India 2011. The tool has to be invoked with the name of the generic. 
 
+Key triggers for tool invocation:
+- Need information about indications, dosage, contraindications, adverse-effects and pregnancy safety of a generic
+- Do not invoke the tool for trivial general information
+
+The tool can work with both single and compound generics. The results are ranked based on relevance of the input query. Eg: On searching for Rifampicin - both Rifampicin and Rifampicin + Isoniazid are given the results. Based on the context of the chat, the assistant will use the tool results and focus on relevant parts as required.
 """

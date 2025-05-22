@@ -8,10 +8,10 @@ from typing import List
 from .constants import (
     INDIAN_BRANDED_DRUG_SEARCH,
     INDIAN_TREATMENT_PROTOCOL_SEARCH, PROTOCOL_PUBLISHERS_DESC,
-    SNOMED_LINKER_DESC
+    SNOMED_LINKER_DESC, PHARMACOLOGY_SEARCH_DESC
 )
 from .eka_client import EkaCareClient
-from .models import IndianBrandedDrugSearch, QueryProtocols, ProtocolPublisher, SnomedLinker
+from .models import IndianBrandedDrugSearch, QueryProtocols, ProtocolPublisher, SnomedLinker, PharmacologySearch
 from .utils import download_image
 
 
@@ -50,6 +50,11 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
                 name="protocol_publishers",
                 description=PROTOCOL_PUBLISHERS_DESC.format(', '.join(tags)),
                 inputSchema=ProtocolPublisher.model_json_schema(mode="serialization"),
+            ),
+            types.Tool(
+                name="pharmacology_search",
+                description=PHARMACOLOGY_SEARCH_DESC.format(', '.join(tags)),
+                inputSchema=PharmacologySearch.model_json_schema(mode="serialization"),
             )
         ]
 
@@ -69,7 +74,8 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
             "indian_branded_drug_search": _handle_indian_branded_drug_search,
             "indian_treatment_protocol_search": _handle_indian_treatment_protocol_search,
             "protocol_publishers": _handle_protocol_publishers,
-            "snomed_linker" : _handle_snomed_linker
+            "snomed_linker" : _handle_snomed_linker,
+            "pharmacology_search": _handle_pharmacology_search
         }
 
         if name not in tool_handlers:
@@ -113,6 +119,10 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
 
     async def _handle_snomed_linker(arguments: List[str]):
         response = client.get_snomed_linker(arguments)
+        return [types.TextContent(type="text", text=json.dumps(response))]
+    
+    async def _handle_pharmacology_search(arguments):
+        response = client.get_pharmacology_search(arguments)
         return [types.TextContent(type="text", text=json.dumps(response))]
     
     return server

@@ -238,6 +238,10 @@ class EkaCareClient:
         """Gets a list of all drugs matching with given name from the API."""
         return self._make_request("get", "medications/v1/search", params=arguments)
 
+    # Pharmacology Search
+    def get_pharmacology_search(self, arguments: Dict[str, Any]):
+        """Gets Pharmacology Search with given name from the API."""
+        return self._make_request("get", "pharmacology/v1/search?query=", params=arguments)
 
     def get_supported_tags(self):
         """
