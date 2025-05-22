@@ -44,7 +44,7 @@ class ProtocolPublisher(BaseModel):
         None, description="The tag/condition for which the publisher is being fetched"
     )
 
-class DiseaseLinker(BaseModel):
+class SnomedLinker(BaseModel):
     query: List[str] = Field(
         None, description="The condition for diseases described"
     )
