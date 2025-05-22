@@ -214,7 +214,7 @@ class EkaCareClient:
             raise
 
     # Disease Linker
-    def get_disease_linker(self, arguments: List[str]) -> List[Dict[str, Any]]:
+    def get_snomed_linker(self, arguments: List[str]) -> List[Dict[str, Any]]:
         """Gets a list of all diseases matching with given name from the API."""
         query_list = arguments.get("query", [])
 
