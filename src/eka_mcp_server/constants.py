@@ -64,7 +64,7 @@ PROTOCOL_PUBLISHERS_DESC = """
     Accepts only {} these tags/conditions
 """
 
-DISEASE_LINKER_DESC = """
+SNOMED_LINKER_DESC = """
 Your task is to read a doctor's free‑text sentence or short note and return every distinct disease or medical condition explicitly mentioned.
 
 STRICT GUIDELINES
