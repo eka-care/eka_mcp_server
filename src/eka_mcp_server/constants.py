@@ -63,3 +63,19 @@ PROTOCOL_PUBLISHERS_DESC = """
     Get all available publishers of protocols for the supported tags/conditions. 
     Accepts only {} these tags/conditions
 """
+
+SNOMED_LINKER_DESC = """
+    Extract every distinct disease or medical condition explicitly mentioned in a doctor’s free-text sentence or short note.
+
+    STRICT GUIDELINES
+    Segmentation
+    - Strip away dates, durations, pronouns, conjunctions, and filler words.
+    - Retain only the raw disease/condition phrases exactly as they appear.
+
+    Deduplication
+    - If the same disease/condition (or its exact synonym) appears multiple times, list it only once.
+
+    Strict Input Matching
+    - Do NOT infer, translate, re-phrase, or interpret clinically.
+    - Do NOT map to codes or preferred terms—output only the original phrases.
+"""
