@@ -1,6 +1,11 @@
 INDIAN_BRANDED_DRUG_SEARCH = """
     Search repository of drugs based on drug brand name, generic composition, 
     or form, to get detailed information about the drug.
+    Whenever ambiguity about medication is present, this tool should be used.
+    
+    The search results are ranked based on similarity and also popularity (custom eka metric) of the medicine.
+    Search results will also return fuzzy matches based on drug names. 
+    
     Tool can provide information about a single drug, single or compound generics at a time.
     Use this tool whenever any recommendation about medicines has to be given.
     After the use of this tool, always respond with the name of the drug instead of 
@@ -12,13 +17,13 @@ INDIAN_TREATMENT_PROTOCOL_SEARCH = """
     Not for general knowledge or symptom-only queries.
     
     Key triggers for tool invocation:
-    - Strictly for clinical decision-making — diagnosis, evaluation, or management. 
+    - Strictly for clinical decision-making — diagnosis, evaluation, or management 
     - Questions about condition management protocols
+    - Strictly only supported conditions from protocol search can be invoked. Anything else will not warrant invocation. 
     
-    When the query is about any of these tags/conditions:
-    {tags}
-
-    requires output from following tools - protocol_publishers 
+    
+    requires output from following tools about the condition and publisher - protocol_publishers
+    - This tool can never be invoked in a standalone fashion, always needs output from protocol_publishers
 
     Prerequisite before invoking the tool
     1. Intent conformation
@@ -45,7 +50,7 @@ INDIAN_TREATMENT_PROTOCOL_SEARCH = """
     - This tool will be invoked multiple times for each sub-query
     - Query needs to be specific and concise, use keywords commonly found in medical protocols published by medical bodies like ADA, ICMR, RSSDI
     Example
-    user query - "What are the treatment guidelines for diabetes?"
+    user query - "What are the treatment     guidelines for diabetes?"
     sub queries -
     1. "Monitoring parameters for diabetes"
     2. "Treatment strategies for diabetes"
@@ -61,5 +66,7 @@ INDIAN_TREATMENT_PROTOCOL_SEARCH = """
 
 PROTOCOL_PUBLISHERS_DESC = """
     Get all available publishers of protocols for the supported tags/conditions. 
+    This tool is the pre-requisite for INDIAN_TREATMENT_PROTOCOL_SEARCH tool.
+    The conditions supported are listed below.
     Accepts only {} these tags/conditions
 """
