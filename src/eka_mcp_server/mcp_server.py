@@ -69,7 +69,7 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
             "indian_branded_drug_search": _handle_indian_branded_drug_search,
             "indian_treatment_protocol_search": _handle_indian_treatment_protocol_search,
             "protocol_publishers": _handle_protocol_publishers,
-            "disease_linker" : _handle_snomed_linker
+            "snomed_linker" : _handle_snomed_linker
         }
 
         if name not in tool_handlers:
