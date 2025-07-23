@@ -1,11 +1,11 @@
 [project]
 name = "eka_mcp_server"
-version = "0.2.4"
+version = "0.2.5"
 description = "The official Eka MCP Server for medical science tools curated by eka.care"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "mcp[cli]>=1.3.0",
+    "mcp[all]>=1.3.0",
     "httpx>=0.28.1",
     "logging>=0.4.9.6",
     "pillow>=11.0.0",
