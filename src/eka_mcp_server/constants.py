@@ -81,11 +81,21 @@ Extract every distinct disease or medical condition explicitly mentioned in a do
 """
 
 PHARMACOLOGY_SEARCH_DESC = """
-Search through the generic details of a drug from the National Formulary of India 2011. The tool has to be invoked with the name of the generic. 
+Search through the generic details of a drug from the National Formulary of India 2011. 
+The tool has to be invoked with the name of the generic. 
 
 Key triggers for tool invocation:
 - Need information about indications, dosage, contraindications, adverse-effects and pregnancy safety of a generic
 - Do not invoke the tool for trivial general information
 
-The tool can work with both single and compound generics. The results are ranked based on relevance of the input query. Eg: On searching for Rifampicin - both Rifampicin and Rifampicin + Isoniazid are given the results. Based on the context of the chat, the assistant will use the tool results and focus on relevant parts as required.
+The tool can work with both single and compound generics. 
+The tool will respond with both single and compound generics when available
+The results are ranked based on relevance of the input query.
+
+For searching compound generic, the input should be like A + B, where A and B are the names of the generics.
+
+Eg: On searching for Rifampicin - both Rifampicin and Rifampicin + Isoniazid are given the results. 
+Based on the context of the chat, the assistant will use the tool results and focus on relevant parts as required.
+
+In case combined generics fail then the tool should be called with individual generics multiple times
 """

@@ -7,11 +7,19 @@ from typing import List
 
 from .constants import (
     INDIAN_BRANDED_DRUG_SEARCH,
-    INDIAN_TREATMENT_PROTOCOL_SEARCH, PROTOCOL_PUBLISHERS_DESC,
-    SNOMED_LINKER_DESC, PHARMACOLOGY_SEARCH_DESC
+    INDIAN_TREATMENT_PROTOCOL_SEARCH,
+    PROTOCOL_PUBLISHERS_DESC,
+    SNOMED_LINKER_DESC,
+    PHARMACOLOGY_SEARCH_DESC,
 )
 from .eka_client import EkaCareClient
-from .models import IndianBrandedDrugSearch, QueryProtocols, ProtocolPublisher, SnomedLinker, PharmacologySearch
+from .models import (
+    IndianBrandedDrugSearch,
+    QueryProtocols,
+    ProtocolPublisher,
+    SnomedLinker,
+    PharmacologySearch,
+)
 from .utils import download_image
 
 
@@ -43,24 +51,26 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
             ),
             types.Tool(
                 name="indian_treatment_protocol_search",
-                description=INDIAN_TREATMENT_PROTOCOL_SEARCH.format(tags=', '.join(tags)),
-                inputSchema=QueryProtocols.model_json_schema(mode="serialization")
+                description=INDIAN_TREATMENT_PROTOCOL_SEARCH.format(
+                    tags=", ".join(tags)
+                ),
+                inputSchema=QueryProtocols.model_json_schema(mode="serialization"),
             ),
             types.Tool(
                 name="protocol_publishers",
-                description=PROTOCOL_PUBLISHERS_DESC.format(', '.join(tags)),
+                description=PROTOCOL_PUBLISHERS_DESC.format(", ".join(tags)),
                 inputSchema=ProtocolPublisher.model_json_schema(mode="serialization"),
             ),
             types.Tool(
-                name="pharmacology_search",
-                description=PHARMACOLOGY_SEARCH_DESC.format(', '.join(tags)),
+                name="indian_pharmacology_search",
+                description=PHARMACOLOGY_SEARCH_DESC.format(", ".join(tags)),
                 inputSchema=PharmacologySearch.model_json_schema(mode="serialization"),
-            )
+            ),
         ]
 
     @server.call_tool()
     async def handle_call_tool(
-            name: str, arguments: dict | None
+        name: str, arguments: dict | None
     ) -> list[types.TextContent | types.ImageContent | types.EmbeddedResource]:
         """
         Handle tool execution requests.
@@ -74,8 +84,8 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
             "indian_branded_drug_search": _handle_indian_branded_drug_search,
             "indian_treatment_protocol_search": _handle_indian_treatment_protocol_search,
             "protocol_publishers": _handle_protocol_publishers,
-            "snomed_linker" : _handle_snomed_linker,
-            "pharmacology_search": _handle_pharmacology_search
+            "snomed_linker": _handle_snomed_linker,
+            "indian_pharmacology_search": _handle_pharmacology_search,
         }
 
         if name not in tool_handlers:
@@ -87,7 +97,6 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
     async def _handle_indian_branded_drug_search(arguments):
         drugs = client.get_suggested_drugs(arguments)
         return [types.TextContent(type="text", text=json.dumps(drugs))]
-
 
     async def _handle_indian_treatment_protocol_search(arguments):
         protocols = client.get_protocols(arguments)
@@ -101,7 +110,6 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
                         type="image",
                         data=data,
                         mimeType="image/jpeg",
-
                         # TODO: this can be used by LLM to generate a better response
                         url=url,
                         publisher=protocol.get("author"),
@@ -110,7 +118,9 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
                     )
                 )
             except Exception as err:
-                logger.error(f"Failed to download protocol url: {protocol.get('url')}, with error: {err}")
+                logger.error(
+                    f"Failed to download protocol url: {protocol.get('url')}, with error: {err}"
+                )
         return output
 
     async def _handle_protocol_publishers(arguments):
@@ -120,9 +130,9 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
     async def _handle_snomed_linker(arguments: List[str]):
         response = client.get_snomed_linker(arguments)
         return [types.TextContent(type="text", text=json.dumps(response))]
-    
+
     async def _handle_pharmacology_search(arguments):
         response = client.get_pharmacology_search(arguments)
         return [types.TextContent(type="text", text=json.dumps(response))]
-    
+
     return server
