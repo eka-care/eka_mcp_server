@@ -133,6 +133,15 @@ Access comprehensive information about drugs from a corpus of drugs based on the
 APIs required for this tool
    - https://developer.eka.care/api-reference/eka_mcp/medications/search 
 
+### Indian Pharmacology details
+<details>
+<summary>Tool definition here</summary>
+</details>
+
+Get details of a generic composition based on the 2011 published guidelines by the National Formulary of India. 
+
+
+
 ## Indian treatment protocol search
 <details>
 <summary>Tool definition here</summary>

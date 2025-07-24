@@ -62,7 +62,7 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
                 inputSchema=ProtocolPublisher.model_json_schema(mode="serialization"),
             ),
             types.Tool(
-                name="indian_pharmacology_search",
+                name="indian_pharmacology_details",
                 description=PHARMACOLOGY_SEARCH_DESC.format(", ".join(tags)),
                 inputSchema=PharmacologySearch.model_json_schema(mode="serialization"),
             ),
@@ -85,7 +85,7 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
             "indian_treatment_protocol_search": _handle_indian_treatment_protocol_search,
             "protocol_publishers": _handle_protocol_publishers,
             "snomed_linker": _handle_snomed_linker,
-            "indian_pharmacology_search": _handle_pharmacology_search,
+            "indian_pharmacology_details": _handle_pharmacology_search,
         }
 
         if name not in tool_handlers:
