@@ -7,8 +7,8 @@ from eka_mcp_server.eka_client import EkaCareClient
 from mcp.server import NotificationOptions
 from mcp.server.models import InitializationOptions
 
-from .eka_client import EkaCareClient
-from .mcp_server import initialize_mcp_server
+# from .eka_client import EkaCareClient
+from eka_mcp_server.mcp_server import initialize_mcp_server
 
 
 async def main() -> None:

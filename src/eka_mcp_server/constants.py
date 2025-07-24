@@ -63,3 +63,39 @@ PROTOCOL_PUBLISHERS_DESC = """
     Get all available publishers of protocols for the supported tags/conditions. 
     Accepts only {} these tags/conditions
 """
+
+SNOMED_LINKER_DESC = """
+Extract every distinct disease or medical condition explicitly mentioned in a doctor’s free-text sentence or short note.
+
+    STRICT GUIDELINES
+    Segmentation
+    - Strip away dates, durations, pronouns, conjunctions, and filler words.
+    - Retain only the raw disease/condition phrases exactly as they appear.
+
+    Deduplication
+    - If the same disease/condition (or its exact synonym) appears multiple times, list it only once.
+
+    Strict Input Matching
+    - Do NOT infer, translate, re-phrase, or interpret clinically.
+    - Do NOT map to codes or preferred terms—output only the original phrases.
+"""
+
+PHARMACOLOGY_SEARCH_DESC = """
+Search through the generic details of a drug from the National Formulary of India 2011. 
+The tool has to be invoked with the name of the generic. 
+
+Key triggers for tool invocation:
+- Need information about indications, dosage, contraindications, adverse-effects and pregnancy safety of a generic
+- Do not invoke the tool for trivial general information
+
+The tool can work with both single and compound generics. 
+The tool will respond with both single and compound generics when available
+The results are ranked based on relevance of the input query.
+
+For searching compound generic, the input should be like A + B, where A and B are the names of the generics.
+
+Eg: On searching for Rifampicin - both Rifampicin and Rifampicin + Isoniazid are given the results. 
+Based on the context of the chat, the assistant will use the tool results and focus on relevant parts as required.
+
+In case combined generics fail then the tool should be called with individual generics multiple times
+"""
