@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/eka-care-eka-mcp-server-badge.png)](https://mseep.ai/app/eka-care-eka-mcp-server)
+
 # Eka MCP Server
 [![License: MIT](https://img.shields.io/badge/license-MIT-C06524)](https://github.com/eka-care/eka_mcp_server/blob/main/LICENSE)
 [![PyPI - Version](https://img.shields.io/pypi/v/eka_mcp_server.svg)](https://pypi.org/project/eka_mcp_server)
