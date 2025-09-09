@@ -14,11 +14,9 @@ INDIAN_TREATMENT_PROTOCOL_SEARCH = """
     Key triggers for tool invocation:
     - Strictly for clinical decision-making — diagnosis, evaluation, or management. 
     - Questions about condition management protocols
-    
-    When the query is about any of these tags/conditions:
-    {tags}
 
-    requires output from following tools - protocol_publishers 
+    requires output from following tools - protocol_publishers. 
+    This tool can only accept input from the list of publishers as described by protocol_publishers  
 
     Prerequisite before invoking the tool
     1. Intent conformation
@@ -34,11 +32,11 @@ INDIAN_TREATMENT_PROTOCOL_SEARCH = """
         </example>
     - In case the confirmed condition is not in the list, then do not invoke the tool
     2. Publisher retrieval
-    - Publisher preference should be asked before protocol search if it's not specified in the query, do not assume any publisher
     - The publishers supported are dynamic and supported publishers can be fetched only from the tool protocol_publishers  
-    - If the publisher list is empty, then do not invoke the tool
+    - If the publisher list is empty, then do not invoke the tool  
     3. Publisher preference selection
-    - Once possible publishers are available, confirm which preferred publisher from the retrieved list should be queried
+    - Invoke the tool with the user given preference of a publisher or the first available publisher. 
+    - In the output explicitly offer the user if they would like to see output from other relevant publishers as listed in protocol_publishers
 
     Query writing guidelines:
     - Incase the question is too broad, breakdown the query into multiple sub queries asking targeted questions
@@ -56,28 +54,28 @@ INDIAN_TREATMENT_PROTOCOL_SEARCH = """
     - Use exact condition names from the list
     - Keep queries concise and specific
     - Don't use question words in queries
-    - If results aren't relevant, rely on inherent medical knowledge
+    - If results aren't relevant, discard the results and proceed to answer
 """
 
 PROTOCOL_PUBLISHERS_DESC = """
-    Get all available publishers of protocols for the supported tags/conditions. 
-    Accepts only {} these tags/conditions
+    Get list of all available publishers of protocols 
 """
 
 SNOMED_LINKER_DESC = """
-Extract every distinct disease or medical condition explicitly mentioned in a doctor’s free-text sentence or short note.
+When the doctor requests for exact SNOMED ID, this tools needs to be invoked, no other trigger to invoke this tool.
+First, Extract every distinct disease or medical condition explicitly mentioned in a doctor’s free-text sentence or short note.
 
-    STRICT GUIDELINES
-    Segmentation
-    - Strip away dates, durations, pronouns, conjunctions, and filler words.
-    - Retain only the raw disease/condition phrases exactly as they appear.
+STRICT GUIDELINES
+Segmentation
+- Strip away dates, durations, pronouns, conjunctions, and filler words.
+- Retain only the raw disease/condition phrases exactly as they appear.
 
-    Deduplication
-    - If the same disease/condition (or its exact synonym) appears multiple times, list it only once.
+Deduplication
+- If the same disease/condition (or its exact synonym) appears multiple times, list it only once.
 
-    Strict Input Matching
-    - Do NOT infer, translate, re-phrase, or interpret clinically.
-    - Do NOT map to codes or preferred terms—output only the original phrases.
+Strict Input Matching
+- Do NOT infer, translate, re-phrase, or interpret clinically.
+- Do NOT map to codes or preferred terms—output only the original phrases.
 """
 
 PHARMACOLOGY_SEARCH_DESC = """

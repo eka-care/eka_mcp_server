@@ -8,19 +8,18 @@ import jwt
 
 import json
 
+
 class RefreshTokenError(Exception):
     pass
+
 
 class CreateTokenError(Exception):
     pass
 
+
 class EkaCareClient:
     def __init__(
-            self,
-            eka_api_host: str,
-            client_id: str,
-            client_secret: str,
-            logger: Logger
+        self, eka_api_host: str, client_id: str, client_secret: str, logger: Logger
     ):
         """
         Initialize the EkaAssist client with connection pooling.
@@ -35,11 +34,8 @@ class EkaCareClient:
         self.logger = logger
         self.client = httpx.Client(
             timeout=30.0,
-            limits=httpx.Limits(
-                max_connections=10,
-                max_keepalive_connections=5
-            ),
-            http2=False
+            limits=httpx.Limits(max_connections=10, max_keepalive_connections=5),
+            http2=False,
         )
 
         self.api_url = eka_api_host
@@ -58,7 +54,6 @@ class EkaCareClient:
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Ensure connection pool is closed when exiting context"""
         self.close()
-
 
     def _get_auth_creds(self):
         """
@@ -79,7 +74,6 @@ class EkaCareClient:
         jwt_payload = jwt.decode(token, options={"verify_signature": False})
         auth_creds["jwt-payload"] = jwt_payload
         return auth_creds
-
 
     def _get_refresh_token(self, auth_creds):
         """
@@ -111,7 +105,6 @@ class EkaCareClient:
             self.logger.error(f"Unexpected error during token refresh: {e}")
             raise RefreshTokenError(f"Unexpected error: {str(e)}") from e
 
-
     def _get_client_token(self):
         """
         Authenticate with the Eka API using client credentials and obtain a valid token.
@@ -123,10 +116,7 @@ class EkaCareClient:
             CreateTokenError: If the request to create a token fails
         """
         url = f"{self.api_url}/connect-auth/v1/account/login"
-        data = {
-            "client_id": self.client_id,
-            "client_secret": self.client_secret
-        }
+        data = {"client_id": self.client_id, "client_secret": self.client_secret}
 
         try:
             resp = self.client.post(url, json=data)
@@ -139,7 +129,6 @@ class EkaCareClient:
             self.logger.error(f"Unexpected error during token creation: {e}")
             raise CreateTokenError(f"Unexpected error: {str(e)}")
 
-
     def _validate_and_gen_token(self):
         """
         Validate the current authentication token.
@@ -151,7 +140,7 @@ class EkaCareClient:
         if current_time >= exp_at - 120:
             self.auth_creds = self._get_auth_creds()
 
-        return self.auth_creds['access_token']
+        return self.auth_creds["access_token"]
 
     @staticmethod
     def _extract_key_value(key, **kwargs):
@@ -188,7 +177,7 @@ class EkaCareClient:
         jwt_payload = self._extract_key_value("jwt-payload", **kwargs)
 
         if jwt_payload:
-            headers['jwt-payload'] = jwt_payload
+            headers["jwt-payload"] = jwt_payload
         elif auth_token_passed:
             headers["Authorization"] = f"Bearer {auth_token_passed}"
         else:
@@ -223,7 +212,7 @@ class EkaCareClient:
 
         endpoint = f"linking/v1/snomed?text_to_link={encoded}"
         return self._make_request("get", endpoint)
-            
+
     #  Protocol endpoints
     def get_protocols(self, arguments: Dict[str, Any]):
         """Get a list of protocols from the API."""
@@ -231,7 +220,9 @@ class EkaCareClient:
 
     def get_protocol_publisher(self, arguments: Dict[str, Any]):
         """Get the list of all publishers for given conditions/tag."""
-        return self._make_request("get", "protocols/v1/publishers/tag", params=arguments)
+        return self._make_request(
+            "get", "protocols/v1/publishers/all", params=arguments
+        )
 
     # Medication endpoints
     def get_suggested_drugs(self, arguments: Dict[str, Any]):
@@ -241,7 +232,9 @@ class EkaCareClient:
     # Pharmacology Search
     def get_pharmacology_search(self, arguments: Dict[str, Any]):
         """Gets Pharmacology Search with given name from the API."""
-        return self._make_request("get", "pharmacology/v1/search?query=", params=arguments)
+        return self._make_request(
+            "get", "pharmacology/v1/search?query=", params=arguments
+        )
 
     def get_supported_tags(self):
         """

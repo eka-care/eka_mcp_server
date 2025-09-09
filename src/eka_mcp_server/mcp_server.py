@@ -51,14 +51,12 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
             ),
             types.Tool(
                 name="indian_treatment_protocol_search",
-                description=INDIAN_TREATMENT_PROTOCOL_SEARCH.format(
-                    tags=", ".join(tags)
-                ),
+                description=INDIAN_TREATMENT_PROTOCOL_SEARCH,
                 inputSchema=QueryProtocols.model_json_schema(mode="serialization"),
             ),
             types.Tool(
                 name="protocol_publishers",
-                description=PROTOCOL_PUBLISHERS_DESC.format(", ".join(tags)),
+                description=PROTOCOL_PUBLISHERS_DESC,
                 inputSchema=ProtocolPublisher.model_json_schema(mode="serialization"),
             ),
             types.Tool(
