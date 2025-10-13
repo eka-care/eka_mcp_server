@@ -38,11 +38,6 @@ def initialize_mcp_server(client: EkaCareClient, logger: Logger):
 
         return [
             types.Tool(
-                name="snomed_linker",
-                description=SNOMED_LINKER_DESC,
-                inputSchema=SnomedLinker.model_json_schema(mode="serialization"),
-            ),
-            types.Tool(
                 name="indian_branded_drug_search",
                 description=INDIAN_BRANDED_DRUG_SEARCH,
                 inputSchema=IndianBrandedDrugSearch.model_json_schema(
