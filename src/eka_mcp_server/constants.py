@@ -33,7 +33,7 @@ INDIAN_TREATMENT_PROTOCOL_SEARCH = """
     - In case the confirmed condition is not in the list, then do not invoke the tool
     2. Publisher retrieval
     - The publishers supported are dynamic and supported publishers can be fetched only from the tool protocol_publishers  
-    - If the publisher list is empty, then do not invoke the tool  
+    - If the publisher list is empty, then do not invoke the tool
     3. Publisher preference selection
     - Invoke the tool with the user given preference of a publisher or the first available publisher. 
     - In the output explicitly offer the user if they would like to see output from other relevant publishers as listed in protocol_publishers

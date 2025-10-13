@@ -41,7 +41,7 @@ class QueryProtocols(BaseModel):
 
 
 class ProtocolPublisher(BaseModel):
-    get_all: bool = Field(description="Get all publishers", default=True)
+    get_all: bool = Field(description="Get all publishers, set to true")
 
 
 class SnomedLinker(BaseModel):
