@@ -22,7 +22,7 @@ Key Benefits:
 # Get Started
 ## Get your developer key from eka.care
 > [!NOTE]  
-> To obtain the `client-id`, and `client-token` reach out to us on ekaconnect@eka.care
+> you can obtain the `client-id`, and `client-token` from https://console.eka.care
 
 
 ## Installation and Setup for Claude Desktop
