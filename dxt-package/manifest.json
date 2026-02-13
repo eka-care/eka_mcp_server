@@ -1,0 +1,73 @@
+{
+  "dxt_version": "0.1",
+  "name": "eka-mcp-server",
+  "display_name": "Eka MCP Server",
+  "version": "0.3.1",
+  "description": "Medical knowledge-bases MCP server for Indian healthcare context",
+  "long_description": "Eka Care's Model Context Protocol (MCP) server facilitates interaction with medical knowledge-bases specifically curated for the Indian healthcare context. Provides access to 500,000+ branded drugs and 180+ treatment protocols from authoritative Indian healthcare institutions.",
+  "author": {
+    "name": "eka.care",
+    "email": "support@eka.care",
+    "url": "https://developer.eka.care"
+  },
+  "documentation": "https://developer.eka.care/api-reference/knowledge-base/overview",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eka-care/eka_mcp_server"
+  },
+  "server": {
+    "type": "python",
+    "entry_point": "uvx",
+    "mcp_config": {
+      "command": "uvx",
+      "args": [
+        "eka_mcp_server",
+        "--eka-api-host",
+        "${EKA_API_HOST}",
+        "--client-id",
+        "${CLIENT_ID}",
+        "--client-secret",
+        "${CLIENT_SECRET}"
+      ]
+    }
+  },
+  "tools": [
+    {
+      "name": "indian_branded_drug_search",
+      "description": "Search across 500,000+ branded drugs available in India with comprehensive metadata including generic composition and manufacturer information"
+    },
+    {
+      "name": "indian_treatment_protocol_search",
+      "description": "Access over 180 treatment protocol documents from authoritative Indian healthcare institutions like ICMR and RSSDI"
+    },
+    {
+      "name": "indian_pharmacology_details",
+      "description": "Search through the generic details of a drug from the National Formulary of India 2011. Contains information about indications, dose details, availability, contraindications and precautions for a generic."
+    }
+  ],
+  "user_config": {
+    "EKA_API_HOST": {
+      "title": "Eka API Host",
+      "description": "Eka API host URL",
+      "type": "string",
+      "default": "https://api.eka.care",
+      "required": true
+    },
+    "CLIENT_ID": {
+      "title": "Client ID",
+      "description": "Your Eka Care client ID",
+      "type": "string",
+      "required": true
+    },
+    "CLIENT_SECRET": {
+      "title": "Client Secret",
+      "description": "Your Eka Care client secret",
+      "type": "string",
+      "required": true,
+      "sensitive": true
+    }
+  },
+  "compatibility": {
+    "python": ">=3.11"
+  }
+}
