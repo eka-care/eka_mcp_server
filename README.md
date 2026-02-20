@@ -19,6 +19,10 @@ Key Benefits:
 * 🛡️ Reduced Hallucinations: Relies on curated medical data rather than AI's implicit general knowledge
 * 🌐 Open Ecosystem: Integrates with the growing MCP open standard
 
+<a href="https://glama.ai/mcp/servers/@eka-care/eka_mcp_server">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@eka-care/eka_mcp_server/badge" alt="Eka Server MCP server" />
+</a>
+
 # Get Started
 ## Get your developer key from eka.care
 > [!NOTE]  
